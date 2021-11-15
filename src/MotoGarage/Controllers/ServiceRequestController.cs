@@ -24,7 +24,7 @@ namespace MotoGarage.Controllers
         }
 
         [HttpGet]
-        [@Authorize]
+        [AuthorizeAdmin]
         public async Task<IActionResult> GetAllRequests(CreateServiceRequestDto createServiceRequestDto)
         {
             var result = await serviceRequestService.GetItems();
@@ -80,7 +80,7 @@ namespace MotoGarage.Controllers
         }
 
         [HttpPost]
-        [@Authorize]
+        [AuthorizeAdmin]
         public async Task<IActionResult> AssigneeServiceRequest(AssigneeServiceRequestDto assigneeServiceRequestDto)
         {
             var getRequestResult = await serviceRequestService.GetItemById(assigneeServiceRequestDto.RequestId);

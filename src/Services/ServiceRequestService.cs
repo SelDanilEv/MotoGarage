@@ -16,11 +16,11 @@ namespace Services
 {
     public class ServiceRequestService : CommonRepositoryService<ServiceRequest>, IServiceRequestService, IApplicationUserForeignKey
     {
-        private IApplicationUserService applicationUserService;
+        private IApplicationUserService _applicationUserService;
 
         public ServiceRequestService(IOptions<MongoDbOption> mongoOption , IApplicationUserService applicationUserService) : base(mongoOption)
         {
-            this.applicationUserService = applicationUserService;
+            this._applicationUserService = applicationUserService;
         }
 
         public async Task<IResult> AssigneeServiceRequest(ServiceRequest serviceRequest, Guid employeeId)
@@ -51,8 +51,8 @@ namespace Services
         {
             var result = (ServiceRequest)item;
 
-            var reporterResult = await applicationUserService.GetItemById(result.ReporterId);
-            var assigneeResult = await applicationUserService.GetItemById(result.AssigneeId);
+            var reporterResult = await _applicationUserService.GetItemById(result.ReporterId);
+            var assigneeResult = await _applicationUserService.GetItemById(result.AssigneeId);
 
             if (reporterResult.IsSuccess)
             {

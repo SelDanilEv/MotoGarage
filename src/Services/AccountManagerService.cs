@@ -13,20 +13,20 @@ namespace Services
 {
     public class AccountManagerService : IAccountManagerService
     {
-        private UserManager<ApplicationUser> userManager;
-        private RoleManager<ApplicationRole> roleManager;
+        private UserManager<ApplicationUser> _userManager;
+        private RoleManager<ApplicationRole> _roleManager;
 
         public AccountManagerService(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
         {
-            this.userManager = userManager;
-            this.roleManager = roleManager;
+            this._userManager = userManager;
+            this._roleManager = roleManager;
         }
 
         public async Task<IResultWithData<ApplicationUser>> GetUserByEmail(string email)
         {
             var result = Result<ApplicationUser>.SuccessResult();
 
-            var getUserResult = await userManager.FindByEmailAsync(email);
+            var getUserResult = await _userManager.FindByEmailAsync(email);
 
             if (getUserResult == null)
             {
@@ -42,7 +42,7 @@ namespace Services
         {
             var result = Result<ApplicationUser>.SuccessResult();
 
-            var getUserResult = await userManager.FindByNameAsync(login);
+            var getUserResult = await _userManager.FindByNameAsync(login);
 
             if (getUserResult == null)
             {
@@ -56,7 +56,7 @@ namespace Services
 
         public async Task<IResultWithData<ApplicationUser>> GetCurrentUser(ClaimsPrincipal User)
         {
-            var result = await userManager.GetUserAsync(User);
+            var result = await _userManager.GetUserAsync(User);
 
             if (result == null)
             {
@@ -76,7 +76,7 @@ namespace Services
                 Email = user.Email
             };
 
-            var createResult = await userManager.CreateAsync(appUser, user.Password);
+            var createResult = await _userManager.CreateAsync(appUser, user.Password);
 
             if (!createResult.Succeeded)
             {
@@ -101,17 +101,17 @@ namespace Services
         {
             var result = Result<string>.SuccessResult();
 
-            var user = await userManager.FindByNameAsync(idOrEmailOrLogin) ??
-                await userManager.FindByEmailAsync(idOrEmailOrLogin);
+            var user = await _userManager.FindByNameAsync(idOrEmailOrLogin) ??
+                await _userManager.FindByEmailAsync(idOrEmailOrLogin);
 
             if (Guid.TryParse(idOrEmailOrLogin, out var guid) && user == null)
             {
-                user = await userManager.FindByIdAsync(idOrEmailOrLogin);
+                user = await _userManager.FindByIdAsync(idOrEmailOrLogin);
             }
 
             if (user != null)
             {
-                var roles = await userManager.GetRolesAsync(user);
+                var roles = await _userManager.GetRolesAsync(user);
 
                 if (roles != null)
                 {
@@ -134,7 +134,7 @@ namespace Services
         {
             var result = Result.SuccessResult();
 
-            IdentityResult createResult = await roleManager.CreateAsync(new ApplicationRole() { Name = name });
+            IdentityResult createResult = await _roleManager.CreateAsync(new ApplicationRole() { Name = name });
             if (createResult.Succeeded)
                 result.BuildMessage("Role created");
             else
@@ -156,20 +156,20 @@ namespace Services
         {
             var result = Result.SuccessResult();
 
-            var user = await userManager.FindByNameAsync(idOrEmailOrLogin) ??
-                await userManager.FindByEmailAsync(idOrEmailOrLogin);
+            var user = await _userManager.FindByNameAsync(idOrEmailOrLogin) ??
+                await _userManager.FindByEmailAsync(idOrEmailOrLogin);
 
             if (Guid.TryParse(idOrEmailOrLogin, out var guid) && user == null)
             {
-                user = await userManager.FindByIdAsync(idOrEmailOrLogin);
+                user = await _userManager.FindByIdAsync(idOrEmailOrLogin);
             }
 
             if (user != null)
             {
-                var roles = await userManager.GetRolesAsync(user);
-                await userManager.RemoveFromRolesAsync(user, roles);
+                var roles = await _userManager.GetRolesAsync(user);
+                await _userManager.RemoveFromRolesAsync(user, roles);
 
-                var grantResult = await userManager.AddToRoleAsync(user, roleName);
+                var grantResult = await _userManager.AddToRoleAsync(user, roleName);
                 if (grantResult.Succeeded)
                 {
                     result.BuildMessage("Role granted");
@@ -194,16 +194,16 @@ namespace Services
         {
             var result = Result.SuccessResult();
 
-            var user = await userManager.FindByEmailAsync(idOrEmailOrLogin);
+            var user = await _userManager.FindByEmailAsync(idOrEmailOrLogin);
 
             if (user != null)
             {
-                var roles = await userManager.GetRolesAsync(user);
-                var removeResult = await userManager.RemoveFromRolesAsync(user, roles);
+                var roles = await _userManager.GetRolesAsync(user);
+                var removeResult = await _userManager.RemoveFromRolesAsync(user, roles);
 
                 if (removeResult.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(user, Roles.Client);
+                    await _userManager.AddToRoleAsync(user, Roles.Client);
 
                     result.BuildMessage("Role removed");
                 }

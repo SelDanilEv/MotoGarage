@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MotoGarage.Controllers
 {
-    [Authorize]
+    [AuthorizeAdmin]
     public class AccountManagerController : BaseController
     {
         private IApplicationUserService applicationUserService;
