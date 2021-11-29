@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace MotoGarage.Controllers
 {
     [AllowAnonymous]
+    [Route("NavMenu")]
     public class NavMenuController : BaseController
     {
         private INavMenuService _navMenuService;
@@ -22,6 +23,7 @@ namespace MotoGarage.Controllers
         }
 
         [HttpGet]
+        [Route("GetMenuItems")]
         public async Task<IActionResult> GetMenuItems()
         {
             var getAvailableMenuItemResult = await _navMenuService.GetAvailableNavMenuItems(CurrentUser?.Role);
@@ -35,7 +37,8 @@ namespace MotoGarage.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateNavMenuItem(CreateNavMenuItemDto createNavMenuItemDto )
+        [Route("CreateNavMenuItem")]
+        public async Task<IActionResult> CreateNavMenuItem(CreateNavMenuItemDto createNavMenuItemDto)
         {
             var newMenuItem = _mapper.Map<NavMenuItem>(createNavMenuItemDto);
 
@@ -50,7 +53,8 @@ namespace MotoGarage.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateNavMenuItem(UpdateNavMenuItemDto updateNavMenuItemDto )
+        [Route("UpdateNavMenuItem")]
+        public async Task<IActionResult> UpdateNavMenuItem(UpdateNavMenuItemDto updateNavMenuItemDto)
         {
             var newMenuItem = _mapper.Map<NavMenuItem>(updateNavMenuItemDto);
 

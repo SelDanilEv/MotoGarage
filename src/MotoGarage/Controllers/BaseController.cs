@@ -1,5 +1,4 @@
-﻿using Infrastructure.Models.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
 using MotoGarage.Filters;
 using AutoMapper;
@@ -8,6 +7,7 @@ using Infrastructure.Models.CommonModels;
 namespace MotoGarage.Controllers
 {
     [ExtractUserAttribute]
+    [ApiController]
     public class BaseController : Controller
     {
         public readonly IAccountManagerService _accountManagerService;

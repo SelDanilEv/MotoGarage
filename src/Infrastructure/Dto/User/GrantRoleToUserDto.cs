@@ -5,7 +5,7 @@ namespace Infrastructure.Dto.User
     public class GrantRoleToUserDto
     {
         [Required]
-        public string EmailLoginOrId { get; set; }
+        public string Id { get; set; }
         [Required]
         public string RoleName { get; set; }
     }

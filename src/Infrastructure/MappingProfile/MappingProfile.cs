@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Infrastructure.Dto.NavMenu;
+using Infrastructure.Dto.User;
 using Infrastructure.Models.CommonModels;
 using Infrastructure.Models.Identity;
 using Infrastructure.Models.Menu;
@@ -13,8 +14,11 @@ namespace Infrastructure.MappingProfile
             #region User and identity
             CreateMap<ApplicationUser, CurrentUser>();
 
-            CreateMap<ApplicationUser, UserModel>().
-                ForMember(model => model.Login, opt => opt.MapFrom(appUser => appUser.UserName));
+            CreateMap<ApplicationUser, UserModel>();
+
+            CreateMap<UserDto, ApplicationUser>().
+                ForMember(appUser => appUser.UserName,
+                          opt => opt.MapFrom(userDto => userDto.Email));
             #endregion
 
 

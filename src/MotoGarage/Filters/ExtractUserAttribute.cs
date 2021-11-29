@@ -18,7 +18,7 @@ namespace MotoGarage.Filters
 
             if (thisController.CurrentUser == default(CurrentUser))
             {
-                var getCurrentUserResult = await thisController._accountManagerService.GetCurrentUser(context.HttpContext.User);
+                var getCurrentUserResult = await thisController._accountManagerService.GetApplicationUser(context.HttpContext.User);
 
                 if (getCurrentUserResult.IsSuccess)
                 {
@@ -26,7 +26,7 @@ namespace MotoGarage.Filters
 
                     thisController.CurrentUser = thisController._mapper.Map<CurrentUser>(appUser);
 
-                    var getRoleResult = await thisController._accountManagerService.GetRoleByEmailOrLoginOrId(appUser.Id.ToString());
+                    var getRoleResult = await thisController._accountManagerService.GetRoleById(appUser.Id.ToString());
 
                     if (getRoleResult.IsSuccess)
                     {

@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Infrastructure.Models.Identity;
 using Infrastructure.Result;
 using Services.Interfaces;
+using Infrastructure.Models.CommonModels;
+using Infrastructure.Enums;
 
 namespace Services
 {
@@ -18,22 +20,15 @@ namespace Services
             this._signInManager = signInManager;
         }
 
-        public async Task<IResult> LoginByLoginOrEmail(string emailOrLogin, string password)
+        public async Task<IResultWithData<CurrentUser>> LoginByEmail(string email, string password)
         {
-            var result = Result.SuccessResult();
-            var errorResult = Result.ErrorResult();
+            var result = Result<CurrentUser>.SuccessResult();
 
-            var appUserResult = await _accountManagerService.GetUserByEmail(emailOrLogin);
+            var appUserResult = await _accountManagerService.GetUserByEmail(email);
 
             if (!appUserResult.IsSuccess)
             {
-                errorResult.BuildMessage(appUserResult.Message);
-
-                appUserResult = await _accountManagerService.GetUserByLogin(emailOrLogin);
-                if (!appUserResult.IsSuccess)
-                {
-                    return errorResult.AppendMessage(appUserResult.Message);
-                }
+                return Result<CurrentUser>.ErrorResult(appUserResult);
             }
 
             var appUser = appUserResult.GetData;
@@ -41,8 +36,17 @@ namespace Services
             var signInWithPasswordResult = await _signInManager.PasswordSignInAsync(appUser, password, false, false);
             if (!signInWithPasswordResult.Succeeded)
             {
-                return Result.ErrorResult().BuildMessage("Invalid password");
+                var invalidPasswordMessage = ResultMessages.UserInvalidPassword;
+
+                var singInErrorResult = Result<CurrentUser>.
+                    ErrorResult()
+                    .BuildMessage(invalidPasswordMessage)
+                    .AddError(ValidationField.Password.ToString(), invalidPasswordMessage);
+                return singInErrorResult;
             }
+
+            var getCurrentUserResult = await _accountManagerService.GetCurrentUser(appUser);
+            result.Data = getCurrentUserResult.IsSuccess ? getCurrentUserResult.GetData : null;
 
             return result;
         }

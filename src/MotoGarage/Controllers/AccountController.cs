@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Infrastructure.Dto.User;
+using Infrastructure.ResponseModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 namespace MotoGarage.Controllers
 {
     [AllowAnonymous]
+    [Route("Account")]
     public class AccountController : BaseController
     {
         private IAccountAuthService accountAuthService;
@@ -21,25 +23,21 @@ namespace MotoGarage.Controllers
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginUserDto loginUserDto)
+        [Route("Login")]
+        public async Task<IActionResult> Login([FromBody] LoginUserDto loginUserDto)
         {
-            if (ModelState.IsValid)
+            var loginResultByEmail = await accountAuthService.LoginByEmail(loginUserDto.Email, loginUserDto.Password);
+            if (loginResultByEmail.IsSuccess)
             {
-                var loginResultByEmail = await accountAuthService.LoginByLoginOrEmail(loginUserDto.LoginOrEmail, loginUserDto.Password);
-                if (loginResultByEmail.IsSuccess)
-                {
-                    return Redirect("/");
-                }
-
-                return BadRequest(loginResultByEmail.Message);
+                return Json(loginResultByEmail.GetData);
             }
 
-            return BadRequest("");
+            return BadRequest(loginResultByEmail.GetErrorResponse);
         }
 
         [Authorize]
         [HttpGet]
+        [Route("Logout")]
         public async Task<IActionResult> Logout()
         {
             await accountAuthService.Logout();

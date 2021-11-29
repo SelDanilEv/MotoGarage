@@ -10,7 +10,8 @@ using AutoMapper;
 
 namespace MotoGarage.Controllers
 {
-    [Microsoft.AspNetCore.Authorization.Authorize]
+    [Authorize]
+    [Route("ServiceRequest")]
     public class ServiceRequestController : BaseController
     {
         private IServiceRequestService serviceRequestService;
@@ -18,13 +19,14 @@ namespace MotoGarage.Controllers
         public ServiceRequestController
             (IAccountManagerService accountManagerService,
             IServiceRequestService serviceRequestService,
-            IMapper mapper) : base(accountManagerService,mapper)
+            IMapper mapper) : base(accountManagerService, mapper)
         {
             this.serviceRequestService = serviceRequestService;
         }
 
         [HttpGet]
         [AuthorizeAdmin]
+        [Route("GetAllRequests")]
         public async Task<IActionResult> GetAllRequests(CreateServiceRequestDto createServiceRequestDto)
         {
             var result = await serviceRequestService.GetItems();
@@ -39,6 +41,7 @@ namespace MotoGarage.Controllers
 
         [HttpPost]
         [AuthorizeClient]
+        [Route("CreateServiceRequest")]
         public async Task<IActionResult> CreateServiceRequest(CreateServiceRequestDto createServiceRequestDto)
         {
             var newRequest = new ServiceRequest()
@@ -60,6 +63,7 @@ namespace MotoGarage.Controllers
 
         [HttpPost]
         [AuthorizeEmployee]
+        [Route("ChangeStatus")]
         public async Task<IActionResult> ChangeStatus(ChangeRequestStatusDto changeRequestStatusDto)
         {
             var getRequestResult = await serviceRequestService.GetItemById(changeRequestStatusDto.RequestId);
@@ -81,6 +85,7 @@ namespace MotoGarage.Controllers
 
         [HttpPost]
         [AuthorizeAdmin]
+        [Route("AssigneeServiceRequest")]
         public async Task<IActionResult> AssigneeServiceRequest(AssigneeServiceRequestDto assigneeServiceRequestDto)
         {
             var getRequestResult = await serviceRequestService.GetItemById(assigneeServiceRequestDto.RequestId);

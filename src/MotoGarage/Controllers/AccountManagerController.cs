@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 namespace MotoGarage.Controllers
 {
     [AuthorizeAdmin]
+    [Route("AccountManager")]
     public class AccountManagerController : BaseController
     {
         private IApplicationUserService applicationUserService;
@@ -24,6 +25,7 @@ namespace MotoGarage.Controllers
         }
 
         [HttpGet]
+        [Route("GetAllUsers")]
         public async Task<IActionResult> GetAllUsers()
         {
             var getAllResult = await applicationUserService.GetItems();
@@ -45,19 +47,22 @@ namespace MotoGarage.Controllers
 
         [HttpPost]
         [AllowAnonymous]
+        [Route("CreateUser")]
         public async Task<IActionResult> CreateUser(UserDto user)
         {
             var result = await _accountManagerService.CreateUser(user);
 
             if (!result.IsSuccess)
             {
-                return BadRequest(result.Message);
+                Response.StatusCode = result.GetErrorResponse.Status;
+                return Json(result.GetErrorResponse);
             }
 
-            return Ok("User created Successfully");
+            return Json(result.Message);
         }
 
         [HttpPost]
+        [Route("CreateRole")]
         public async Task<IActionResult> CreateRole(RoleDto role)
         {
             var result = await _accountManagerService.CreateRole(role.Name);
@@ -71,9 +76,10 @@ namespace MotoGarage.Controllers
         }
 
         [HttpPost]
+        [Route("AddRole")]
         public async Task<IActionResult> AddRole(GrantRoleToUserDto grantDto)
         {
-            var result = await _accountManagerService.GrantRoleByEmailOrLoginOrId(grantDto.EmailLoginOrId, grantDto.RoleName);
+            var result = await _accountManagerService.GrantRoleById(grantDto.Id, grantDto.RoleName);
 
             if (!result.IsSuccess)
             {
@@ -84,9 +90,10 @@ namespace MotoGarage.Controllers
         }
 
         [HttpPost]
+        [Route("RemoveRole")]
         public async Task<IActionResult> RemoveRole(GrantRoleToUserDto revokeDto)
         {
-            var result = await _accountManagerService.RemoveRolesByEmailOrLoginOrId(revokeDto.EmailLoginOrId);
+            var result = await _accountManagerService.RemoveRolesById(revokeDto.Id);
 
             if (!result.IsSuccess)
             {

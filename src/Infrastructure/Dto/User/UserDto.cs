@@ -6,7 +6,7 @@ namespace Infrastructure.Dto.User
     public class UserDto
     {
         [Required]
-        public string Login { get; set; }
+        public string Name { get; set; }
 
         [Required]
         [EmailAddress(ErrorMessage = "Invalid Email")]

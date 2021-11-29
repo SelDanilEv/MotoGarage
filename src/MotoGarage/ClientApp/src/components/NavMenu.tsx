@@ -5,9 +5,11 @@ import {
   makeStyles,
   Button,
 } from "@material-ui/core";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
+import { MenuItem } from "./../Interfaces/MenuItem";
+import { NavMenuContext } from "./GlobalState/NavMenu/NavMenuStore";
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -43,8 +45,11 @@ const NavMenu = () => {
   const [resultState, setResultState] = useState({
     error: "",
     loading: true,
-    menuItems: [],
+    isLogin: false,
+    menuItems: Array<MenuItem>(),
   });
+
+  const [navManuState, setNavManuState]: any = useContext(NavMenuContext);
 
   useEffect(() => {
     console.log("start fetch");
@@ -52,8 +57,9 @@ const NavMenu = () => {
       .then((res) => res.json())
       .then(
         (result) => {
-          console.log("fetch result");
+          console.log("fetch result 1");
           console.log(result);
+
           setResultState((prevState) => ({
             ...prevState,
             loading: false,
@@ -75,6 +81,8 @@ const NavMenu = () => {
     return (
       <Toolbar className={toolbar}>
         {femmecubatorLogo}
+        {console.log(navManuState.CurrentUser)}
+        {navManuState.CurrentUser ? navManuState.CurrentUser.email : ""}
         <div>{getMenuButtons()}</div>
       </Toolbar>
     );
@@ -95,7 +103,10 @@ const NavMenu = () => {
     } else {
       console.log("Try get menu");
       console.log(resultState.menuItems);
-      return resultState.menuItems.map(({ displayName, href, id }) => {
+
+      let menuItems: Array<MenuItem> = filterMenuItems(resultState.menuItems);
+
+      return menuItems.map(({ displayName, href, id }) => {
         return (
           <Button
             {...{
@@ -111,6 +122,22 @@ const NavMenu = () => {
         );
       });
     }
+  };
+
+  const filterMenuItems = (menuItems: Array<MenuItem>): Array<MenuItem> => {
+    let filteredMenuItems: Array<MenuItem>;
+
+    if (navManuState.CurrentUser) {
+      filteredMenuItems = menuItems.filter(
+        (item) => item.displayName.toUpperCase() != "LOGIN"
+      );
+    } else {
+      filteredMenuItems = menuItems.filter(
+        (item) => item.displayName.toUpperCase() != "LOGOUT"
+      );
+    }
+
+    return filteredMenuItems;
   };
 
   return (

@@ -5,6 +5,6 @@ namespace Infrastructure.Dto.User
     public class RevokeRoleToUserDto
     {
         [Required]
-        public string EmailLoginOrId { get; set; }
+        public string Id { get; set; }
     }
 }

@@ -1,26 +1,26 @@
 import * as React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import NavMenu from "./NavMenu";
 import Home from "./../components/Home";
-import Counter from "./../components/Counter";
-import Login from "./Login";
+import LoginAndRegistration from "./LoginAndRegistration/LoginAndRegistration";
+import Logout from "./LoginAndRegistration/Logout";
+import Registration from "./LoginAndRegistration/Registration";
+import Login from "./LoginAndRegistration/Login";
+import LinearIndeterminate from "./LinearIndeterminate";
 
-interface LayoutProps {}
-
-const Layout = ({}: LayoutProps) => {
+const Layout = () => {
   return (
     <>
-      <Router>
-        <NavMenu></NavMenu>
-        <Switch>
-          <Route exact path={["/", "/Home/Index"]} component={Home} />
-          <Route path="/Account/Login" component={Login} />
-          <Route
-            path="/counter"
-            component={() => <Counter multiplicator={5} />}
-          />
-        </Switch>
-      </Router>
+      <NavMenu />
+      <LinearIndeterminate/>
+      <Routes>
+        <Route path={"/"} element={<Home />} />
+        <Route path="/Account" element={<LoginAndRegistration />}>
+          <Route path="Login" element={<Login />} />
+          <Route path="Registration" element={<Registration />} />
+        </Route>
+        <Route path="/Account/Logout" element={<Logout />} />
+      </Routes>
     </>
   );
 };

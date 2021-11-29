@@ -1,26 +1,29 @@
 ﻿using Infrastructure.Result.Interfaces;
-using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
-using Infrastructure.Models.Identity;
 using Infrastructure.Result;
 using Services.Interfaces;
 using Infrastructure.Models.ServiceRequest;
 using Microsoft.Extensions.Options;
 using Infrastructure.Options;
 using System;
-using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Infrastructure.Enums;
+using AutoMapper;
+using Infrastructure.Models.CommonModels;
 
 namespace Services
 {
     public class ServiceRequestService : CommonRepositoryService<ServiceRequest>, IServiceRequestService, IApplicationUserForeignKey
     {
-        private IApplicationUserService _applicationUserService;
+        private readonly IApplicationUserService _applicationUserService;
+        private readonly IMapper _mapper;
 
-        public ServiceRequestService(IOptions<MongoDbOption> mongoOption , IApplicationUserService applicationUserService) : base(mongoOption)
+        public ServiceRequestService(IOptions<MongoDbOption> mongoOption,
+            IApplicationUserService applicationUserService,
+            IMapper mapper) : base(mongoOption)
         {
-            this._applicationUserService = applicationUserService;
+            _applicationUserService = applicationUserService;
+            _mapper = mapper;
         }
 
         public async Task<IResult> AssigneeServiceRequest(ServiceRequest serviceRequest, Guid employeeId)
@@ -54,14 +57,14 @@ namespace Services
             var reporterResult = await _applicationUserService.GetItemById(result.ReporterId);
             var assigneeResult = await _applicationUserService.GetItemById(result.AssigneeId);
 
-            if (reporterResult.IsSuccess)
+            if (reporterResult.IsSuccess && reporterResult.GetData != null)
             {
-                result.Reporter = reporterResult.GetData?.ToModel();
+                result.Reporter = _mapper.Map<UserModel>(reporterResult.GetData);
             }
 
-            if (assigneeResult.IsSuccess)
+            if (assigneeResult.IsSuccess && assigneeResult.GetData != null)
             {
-                result.Assignee = assigneeResult.GetData?.ToModel();
+                result.Assignee = _mapper.Map<UserModel>(assigneeResult.GetData);
             }
 
             return (T)item;

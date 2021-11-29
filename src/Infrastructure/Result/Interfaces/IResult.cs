@@ -1,4 +1,6 @@
-﻿namespace Infrastructure.Result.Interfaces
+﻿using Infrastructure.ResponseModels;
+
+namespace Infrastructure.Result.Interfaces
 {
     public interface IResult
     {
@@ -7,5 +9,7 @@
         ResultStatus Status { get; }
 
         string Message { get; set; }
+
+        ErrorResponse GetErrorResponse { get; }
     }
 }
