@@ -12,7 +12,7 @@ const Logout = () => {
 
   const logout = async () => {
     wrapAPICall(async () => {
-      const response = await fetch("Account/Logout");
+      const response = await fetch("api/Account/Logout");
 
       console.log(response);
 

@@ -34,7 +34,7 @@ const Login = () => {
 
       console.log(requestData);
 
-      const response = await fetch("Account/Login", {
+      const response = await fetch("api/Account/Login", {
         method: "POST",
         body: JSON.stringify(requestData),
         headers: {

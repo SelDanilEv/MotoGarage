@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace MotoGarage.Controllers
 {
     [AllowAnonymous]
-    [Route("NavMenu")]
+    [Route("api/NavMenu")]
     public class NavMenuController : BaseController
     {
         private INavMenuService _navMenuService;

@@ -10,6 +10,8 @@ import { Link as RouterLink } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import { MenuItem } from "./../Interfaces/MenuItem";
 import { NavMenuContext } from "./GlobalState/NavMenu/NavMenuStore";
+import wrapAPICall from "./GlobalState/LoadingState/wrapAPICall";
+import { LoadingContext } from "./GlobalState/LoadingState/LoadingStore";
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -50,31 +52,29 @@ const NavMenu = () => {
   });
 
   const [navManuState, setNavManuState]: any = useContext(NavMenuContext);
+  const [loadingState, setLoadingState]: any = useContext(LoadingContext);
 
   useEffect(() => {
-    console.log("start fetch");
-    fetch("NavMenu/GetMenuItems")
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          console.log("fetch result 1");
-          console.log(result);
-
-          setResultState((prevState) => ({
-            ...prevState,
-            loading: false,
-            menuItems: result,
-          }));
-        },
-        (error) => {
-          console.log("fetch error");
-          setResultState((prevState) => ({
-            ...prevState,
-            loading: false,
-            error: error.message,
-          }));
-        }
-      );
+    wrapAPICall(async () => {
+      fetch("api/NavMenu/GetMenuItems")
+        .then((res) => res.json())
+        .then(
+          (result) => {
+            setResultState((prevState) => ({
+              ...prevState,
+              loading: false,
+              menuItems: result,
+            }));
+          },
+          (error) => {
+            setResultState((prevState) => ({
+              ...prevState,
+              loading: false,
+              error: error.message,
+            }));
+          }
+        );
+    }, setLoadingState);
   }, []);
 
   const displayDesktop = () => {

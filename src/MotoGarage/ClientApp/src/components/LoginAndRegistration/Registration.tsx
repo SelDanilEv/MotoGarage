@@ -40,7 +40,7 @@ const Registration = () => {
 
       console.log(requestData);
 
-      const response = await fetch("AccountManager/CreateUser", {
+      const response = await fetch("api/AccountManager/CreateUser", {
         method: "POST",
         body: JSON.stringify(requestData),
         headers: {

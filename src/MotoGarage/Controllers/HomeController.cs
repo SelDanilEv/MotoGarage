@@ -6,7 +6,7 @@ using Services.Interfaces;
 namespace MotoGarage.Controllers
 {
     [AllowAnonymous]
-    [Route("Home")]
+    [Route("api/Home")]
     public class HomeController : BaseController
     {
         public HomeController(IAccountManagerService accountManagerService, IMapper mapper) : base(accountManagerService, mapper)

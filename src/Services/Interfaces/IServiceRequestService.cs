@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Enums;
 using Infrastructure.Models.Identity;
-using Infrastructure.Models.ServiceRequest;
+using Infrastructure.Models.ServiceRequests;
 using Infrastructure.Result.Interfaces;
 using System;
 using System.Threading.Tasks;

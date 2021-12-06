@@ -1,14 +1,10 @@
 ﻿using Infrastructure.Enums;
 using Infrastructure.Models.CommonModels;
-using Infrastructure.Models.Identity;
+using Infrastructure.Models.Reviews;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Infrastructure.Models.ServiceRequest
+namespace Infrastructure.Models.ServiceRequests
 {
     public class ServiceRequest : IBaseModel
     {
@@ -17,6 +13,7 @@ namespace Infrastructure.Models.ServiceRequest
         public string Title { get; set; }
         public string Message { get; set; }
         public ServiceRequestStatus Status { get; set; }
+        public Review Review { get; set; }
 
         public Guid ReporterId { get; set; }
         public Guid AssigneeId { get; set; }

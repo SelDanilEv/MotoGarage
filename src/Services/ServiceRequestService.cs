@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Infrastructure.Result;
 using Services.Interfaces;
-using Infrastructure.Models.ServiceRequest;
 using Microsoft.Extensions.Options;
 using Infrastructure.Options;
 using System;
@@ -10,6 +9,7 @@ using System.Collections.Generic;
 using Infrastructure.Enums;
 using AutoMapper;
 using Infrastructure.Models.CommonModels;
+using Infrastructure.Models.ServiceRequests;
 
 namespace Services
 {

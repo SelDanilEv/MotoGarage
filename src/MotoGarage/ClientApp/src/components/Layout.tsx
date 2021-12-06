@@ -7,20 +7,23 @@ import Logout from "./LoginAndRegistration/Logout";
 import Registration from "./LoginAndRegistration/Registration";
 import Login from "./LoginAndRegistration/Login";
 import LinearIndeterminate from "./LinearIndeterminate";
+import LayoutDefault from "../contentLayout/LayoutDefault";
 
 const Layout = () => {
   return (
     <>
       <NavMenu />
-      <LinearIndeterminate/>
-      <Routes>
-        <Route path={"/"} element={<Home />} />
-        <Route path="/Account" element={<LoginAndRegistration />}>
-          <Route path="Login" element={<Login />} />
-          <Route path="Registration" element={<Registration />} />
-        </Route>
-        <Route path="/Account/Logout" element={<Logout />} />
-      </Routes>
+      <LinearIndeterminate />
+      <LayoutDefault>
+        <Routes>
+          <Route path={"/"} element={<Home />} />
+          <Route path="/Account" element={<LoginAndRegistration />}>
+            <Route path="Login" element={<Login />} />
+            <Route path="Registration" element={<Registration />} />
+          </Route>
+          <Route path="/Account/Logout" element={<Logout />} />
+        </Routes>
+      </LayoutDefault>
     </>
   );
 };

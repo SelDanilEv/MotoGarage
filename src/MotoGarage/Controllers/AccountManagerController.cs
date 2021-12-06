@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace MotoGarage.Controllers
 {
     [AuthorizeAdmin]
-    [Route("AccountManager")]
+    [Route("api/AccountManager")]
     public class AccountManagerController : BaseController
     {
         private IApplicationUserService applicationUserService;

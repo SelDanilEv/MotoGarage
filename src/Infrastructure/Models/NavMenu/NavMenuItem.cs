@@ -1,4 +1,6 @@
-﻿namespace Infrastructure.Models.Menu
+﻿using Infrastructure.Enums;
+
+namespace Infrastructure.Models.Menu
 {
     public class NavMenuItem : BaseModel
     {
@@ -11,7 +13,7 @@
 
         public ActionLink Link { get; set; } 
 
-        public int AccessLevel { get; set; }
+        public AccessLevel AccessLevel { get; set; }
 
         public int Priority { get; set; }
     }

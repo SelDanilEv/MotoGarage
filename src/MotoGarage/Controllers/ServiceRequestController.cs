@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Services.Interfaces;
 using System.Threading.Tasks;
-using Infrastructure.Models.ServiceRequest;
+using Infrastructure.Models.ServiceRequests;
 using Infrastructure.Attributes;
 using Infrastructure.Enums;
 using Infrastructure.Dto.ServiceRequest;
@@ -11,7 +11,7 @@ using AutoMapper;
 namespace MotoGarage.Controllers
 {
     [Authorize]
-    [Route("ServiceRequest")]
+    [Route("api/ServiceRequest")]
     public class ServiceRequestController : BaseController
     {
         private IServiceRequestService serviceRequestService;

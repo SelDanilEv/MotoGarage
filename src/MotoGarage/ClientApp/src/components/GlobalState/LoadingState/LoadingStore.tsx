@@ -3,6 +3,7 @@ import LoadingReducer from "./LoadingReducer";
 
 const initialState: any = {
   Loading: false,
+  CallsCounter: Number(0),
 };
 
 const LoadingStore = ({ children }: any) => {

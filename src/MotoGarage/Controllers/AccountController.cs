@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace MotoGarage.Controllers
 {
     [AllowAnonymous]
-    [Route("Account")]
+    [Route("api/Account")]
     public class AccountController : BaseController
     {
         private IAccountAuthService accountAuthService;
