@@ -109,6 +109,11 @@ namespace MotoGarage
                     pattern: "api/{controller}/{action=Index}/{id?}");
             });
 
+            app.UseSpaStaticFiles(new StaticFileOptions
+            {
+                RequestPath = "/clientapp/build"
+            });
+
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "ClientApp";
