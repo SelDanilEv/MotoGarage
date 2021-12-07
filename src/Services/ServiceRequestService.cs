@@ -10,6 +10,8 @@ using Infrastructure.Enums;
 using AutoMapper;
 using Infrastructure.Models.CommonModels;
 using Infrastructure.Models.ServiceRequests;
+using System.Linq;
+using Infrastructure.Models.User;
 
 namespace Services
 {
@@ -95,6 +97,31 @@ namespace Services
             }
 
             return result;
+        }
+
+
+        public async Task<IResultWithData<IList<ServiceRequest>>> GetUserRequests(UserModel user)
+        {
+            var getAllResult = (Result<IList<ServiceRequest>>)await GetItems();
+
+            if (!getAllResult.IsSuccess)
+            {
+                return getAllResult;
+            }
+
+            switch (user.Role)
+            {
+                case Roles.Client:
+                    getAllResult.Data = getAllResult.GetData.Where(x => x.ReporterId == user.Id).ToList();
+                    break;
+                case Roles.Employee:
+                    getAllResult.Data = getAllResult.GetData.Where(x => x.AssigneeId == user.Id).ToList();
+                    break;
+                case Roles.Admin:
+                    break;
+            }
+
+            return getAllResult;
         }
     }
 }

@@ -21,22 +21,22 @@ namespace Services
         }
 
         // Remove that method
-        public async Task<IResultWithData<List<UserEditModel>>> GetAllUserModels()
+        public async Task<IResultWithData<List<UserModel>>> GetAllUserModels()
         {
-            var result = Result<List<UserEditModel>>.SuccessResult();
+            var result = Result<List<UserModel>>.SuccessResult();
 
             var getAllResult = await this.GetItems();
 
             if (!getAllResult.IsSuccess)
             {
-                return Result<List<UserEditModel>>.ErrorResult().BuildMessage("Error while get all users");
+                return Result<List<UserModel>>.ErrorResult().BuildMessage("Error while get all users");
             }
 
-            var userList = new List<UserEditModel>();
+            var userList = new List<UserModel>();
 
             foreach (var user in getAllResult.GetData)
             {
-                var model = _mapper.Map<UserEditModel>(user);
+                var model = _mapper.Map<UserModel>(user);
                 //model.Role = (await _accountManagerService.GetRoleByEmail(model.Email)).GetData;
 
                 userList.Add(model);

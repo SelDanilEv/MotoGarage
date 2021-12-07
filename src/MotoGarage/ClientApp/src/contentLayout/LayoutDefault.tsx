@@ -1,5 +1,4 @@
-import { ThemeProvider } from "@material-ui/styles";
-import { createTheme, CssBaseline } from "@mui/material";
+import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import React, { ReactNode } from "react";
 
 const themeDark = createTheme({

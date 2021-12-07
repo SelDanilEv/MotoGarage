@@ -85,7 +85,7 @@ namespace Services
             return Result<CurrentUser>.SuccessResult(appUser);
         }
 
-        public async Task<IResult> CreateUser(UserDto user)
+        public async Task<IResult> CreateUser(LoginUserDto user)
         {
             var result = Result.SuccessResult();
 

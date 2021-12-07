@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Enums;
-using Infrastructure.Models.CommonModels;
 using Infrastructure.Models.Reviews;
+using Infrastructure.Models.User;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 

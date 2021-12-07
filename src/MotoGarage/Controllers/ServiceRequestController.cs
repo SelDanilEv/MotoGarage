@@ -7,6 +7,7 @@ using Infrastructure.Attributes;
 using Infrastructure.Enums;
 using Infrastructure.Dto.ServiceRequest;
 using AutoMapper;
+using Infrastructure.Models.User;
 
 namespace MotoGarage.Controllers
 {
@@ -26,8 +27,25 @@ namespace MotoGarage.Controllers
 
         [HttpGet]
         [AuthorizeAdmin]
+        [Route("GetUserRequests")]
+        public async Task<IActionResult> GetUserRequests()
+        {
+            var currentUser = _mapper.Map<UserModel>(CurrentUser);
+            var result = await serviceRequestService.GetUserRequests(currentUser);
+
+            if (result == null || !result.IsSuccess)
+            {
+                Response.StatusCode = result.GetErrorResponse.Status;
+                return BadRequest(result?.Message ?? "Result is empty");
+            }
+
+            return Json(result);
+        }
+
+        [HttpGet]
+        [AuthorizeAdmin]
         [Route("GetAllRequests")]
-        public async Task<IActionResult> GetAllRequests(CreateServiceRequestDto createServiceRequestDto)
+        public async Task<IActionResult> GetAllRequests()
         {
             var result = await serviceRequestService.GetItems();
 

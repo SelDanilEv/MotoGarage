@@ -14,7 +14,7 @@ namespace Services.Interfaces
         Task<IResultWithData<ApplicationUser>> GetApplicationUser(ClaimsPrincipal User);
         Task<IResultWithData<CurrentUser>> GetCurrentUser(ApplicationUser User);
 
-        Task<IResult> CreateUser(UserDto user);
+        Task<IResult> CreateUser(LoginUserDto user);
 
         Task<IResultWithData<string>> GetRoleByEmail(string email);
         Task<IResultWithData<string>> GetRoleById(string id);

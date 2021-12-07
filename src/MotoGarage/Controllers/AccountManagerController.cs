@@ -39,11 +39,11 @@ namespace MotoGarage.Controllers
                 return Json(getAllResult.Message);
             }
 
-            var userList = new List<UserEditModel>();
+            var userList = new List<Infrastructure.Models.User.UserModel>();
 
             foreach (var user in getAllResult.GetData)
             {
-                var model = _mapper.Map<UserEditModel>(user);
+                var model = _mapper.Map<Infrastructure.Models.User.UserModel>(user);
                 model.Role = (await _accountManagerService.GetRoleByEmail(model.Email)).GetData;
 
                 userList.Add(model);
@@ -55,7 +55,7 @@ namespace MotoGarage.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("CreateUser")]
-        public async Task<IActionResult> CreateUser(UserDto user)
+        public async Task<IActionResult> CreateUser(LoginUserDto user)
         {
             var result = await _accountManagerService.CreateUser(user);
 
@@ -71,7 +71,7 @@ namespace MotoGarage.Controllers
         [HttpPost]
         [AuthorizeAdmin]
         [Route("UpdateUser")]
-        public async Task<IActionResult> UpdateUser(UserEditDto user)
+        public async Task<IActionResult> UpdateUser(UserDto user)
         {
             var appUser = (await _applicationUserService.GetItemById(user.Id)).GetData;
 
