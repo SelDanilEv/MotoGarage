@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Infrastructure.Dto.NavMenu;
+using Infrastructure.Dto.ServiceRequest;
 using Infrastructure.Dto.User;
 using Infrastructure.Models.CommonModels;
 using Infrastructure.Models.Identity;
 using Infrastructure.Models.Menu;
+using Infrastructure.Models.ServiceRequests;
 using Infrastructure.Models.User;
 
 namespace Infrastructure.MappingProfile
@@ -14,23 +16,35 @@ namespace Infrastructure.MappingProfile
         {
             #region User and identity
             CreateMap<ApplicationUser, CurrentUser>();
-
+            CreateMap<CurrentUser, UserModel>();
             CreateMap<ApplicationUser, UserModel>();
-            CreateMap<ApplicationUser, UserEditModel>();
+
+            CreateMap<LoginUserDto, ApplicationUser>().
+                ForMember(appUser => appUser.UserName,
+                          opt => opt.MapFrom(userDto => userDto.Email));
+
+            CreateMap<UserModel, UserDto>().
+                ForMember(appUser => appUser.UserName,
+                          opt => opt.MapFrom(userDto => userDto.Email));
 
             CreateMap<UserDto, ApplicationUser>().
                 ForMember(appUser => appUser.UserName,
                           opt => opt.MapFrom(userDto => userDto.Email));
 
-            CreateMap<UserEditDto, ApplicationUser>().
-                ForMember(appUser => appUser.UserName,
-                          opt => opt.MapFrom(userDto => userDto.Email));
-
-            CreateMap<ApplicationUser, UserDto > ().
+            CreateMap<ApplicationUser, LoginUserDto>().
                 ForMember(appUser => appUser.Email,
                           opt => opt.MapFrom(userDto => userDto.UserName));
             #endregion
 
+            #region Service requests
+
+            CreateMap<ServiceRequest, ServiceRequestDto>().
+                ForMember(dto => dto.Status,
+                    opt => opt.MapFrom(request => request.Status.ToString())).
+                ForMember(dto => dto.,
+                    opt => opt.MapFrom(request => request.Status.ToString()));
+
+            #endregion
 
             #region Menu
             CreateMap<NavMenuItem, NavMenuItemDto>().
