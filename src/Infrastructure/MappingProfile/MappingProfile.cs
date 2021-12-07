@@ -4,6 +4,7 @@ using Infrastructure.Dto.User;
 using Infrastructure.Models.CommonModels;
 using Infrastructure.Models.Identity;
 using Infrastructure.Models.Menu;
+using Infrastructure.Models.User;
 
 namespace Infrastructure.MappingProfile
 {
@@ -15,10 +16,19 @@ namespace Infrastructure.MappingProfile
             CreateMap<ApplicationUser, CurrentUser>();
 
             CreateMap<ApplicationUser, UserModel>();
+            CreateMap<ApplicationUser, UserEditModel>();
 
             CreateMap<UserDto, ApplicationUser>().
                 ForMember(appUser => appUser.UserName,
                           opt => opt.MapFrom(userDto => userDto.Email));
+
+            CreateMap<UserEditDto, ApplicationUser>().
+                ForMember(appUser => appUser.UserName,
+                          opt => opt.MapFrom(userDto => userDto.Email));
+
+            CreateMap<ApplicationUser, UserDto > ().
+                ForMember(appUser => appUser.Email,
+                          opt => opt.MapFrom(userDto => userDto.UserName));
             #endregion
 
 

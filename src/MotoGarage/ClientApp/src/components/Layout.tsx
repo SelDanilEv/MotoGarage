@@ -8,6 +8,7 @@ import Registration from "./LoginAndRegistration/Registration";
 import Login from "./LoginAndRegistration/Login";
 import LinearIndeterminate from "./LinearIndeterminate";
 import LayoutDefault from "../contentLayout/LayoutDefault";
+import AdminPage from "./AdminPage/AdminPage";
 
 const Layout = () => {
   return (
@@ -17,6 +18,7 @@ const Layout = () => {
       <LayoutDefault>
         <Routes>
           <Route path={"/"} element={<Home />} />
+          <Route path={"/Admin/ManageUsers"} element={<AdminPage />} />
           <Route path="/Account" element={<LoginAndRegistration />}>
             <Route path="Login" element={<Login />} />
             <Route path="Registration" element={<Registration />} />

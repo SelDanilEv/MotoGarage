@@ -75,7 +75,7 @@ const NavMenu = () => {
           }
         );
     }, setLoadingState);
-  }, []);
+  }, [navManuState]);
 
   const displayDesktop = () => {
     return (
@@ -125,16 +125,18 @@ const NavMenu = () => {
   };
 
   const filterMenuItems = (menuItems: Array<MenuItem>): Array<MenuItem> => {
-    let filteredMenuItems: Array<MenuItem>;
+    let filteredMenuItems: Array<MenuItem> = [];
 
-    if (navManuState.CurrentUser) {
-      filteredMenuItems = menuItems.filter(
-        (item) => item.displayName.toUpperCase() != "LOGIN"
-      );
-    } else {
-      filteredMenuItems = menuItems.filter(
-        (item) => item.displayName.toUpperCase() != "LOGOUT"
-      );
+    if (menuItems) {
+      if (navManuState.CurrentUser) {
+        filteredMenuItems = menuItems.filter(
+          (item) => item.displayName.toUpperCase() != "LOGIN"
+        );
+      } else {
+        filteredMenuItems = menuItems.filter(
+          (item) => item.displayName.toUpperCase() != "LOGOUT"
+        );
+      }
     }
 
     return filteredMenuItems;

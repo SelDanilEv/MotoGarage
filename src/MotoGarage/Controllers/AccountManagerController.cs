@@ -2,9 +2,12 @@
 using Infrastructure.Attributes;
 using Infrastructure.Dto.User;
 using Infrastructure.Models.CommonModels;
+using Infrastructure.Models.Identity;
+using Infrastructure.Models.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -14,35 +17,39 @@ namespace MotoGarage.Controllers
     [Route("api/AccountManager")]
     public class AccountManagerController : BaseController
     {
-        private IApplicationUserService applicationUserService;
+        private IApplicationUserService _applicationUserService;
 
         public AccountManagerController
             (IApplicationUserService applicationUserService ,
             IAccountManagerService accountManagerService,
             IMapper mapper) : base(accountManagerService, mapper)
         {
-            this.applicationUserService = applicationUserService;
+            this._applicationUserService = applicationUserService;
         }
 
         [HttpGet]
         [Route("GetAllUsers")]
         public async Task<IActionResult> GetAllUsers()
         {
-            var getAllResult = await applicationUserService.GetItems();
+            var getAllResult = await _applicationUserService.GetItems();
 
             if (!getAllResult.IsSuccess)
             {
-                return BadRequest(getAllResult.Message);
+                Response.StatusCode = getAllResult.GetErrorResponse.Status;
+                return Json(getAllResult.Message);
             }
 
-            List<UserModel> userList = new List<UserModel>();
+            var userList = new List<UserEditModel>();
 
             foreach (var user in getAllResult.GetData)
             {
-                userList.Add(_mapper.Map<UserModel>(user));
+                var model = _mapper.Map<UserEditModel>(user);
+                model.Role = (await _accountManagerService.GetRoleByEmail(model.Email)).GetData;
+
+                userList.Add(model);
             }
 
-            return Ok(userList);
+            return Json(userList);
         }
 
         [HttpPost]
@@ -51,6 +58,44 @@ namespace MotoGarage.Controllers
         public async Task<IActionResult> CreateUser(UserDto user)
         {
             var result = await _accountManagerService.CreateUser(user);
+
+            if (!result.IsSuccess)
+            {
+                Response.StatusCode = result.GetErrorResponse.Status;
+                return Json(result.GetErrorResponse);
+            }
+
+            return Json(result.Message);
+        }
+
+        [HttpPost]
+        [AuthorizeAdmin]
+        [Route("UpdateUser")]
+        public async Task<IActionResult> UpdateUser(UserEditDto user)
+        {
+            var appUser = (await _applicationUserService.GetItemById(user.Id)).GetData;
+
+            appUser.Name = user.Name;
+
+            var result = await _applicationUserService.UpdateItem(appUser);
+
+            if (!result.IsSuccess)
+            {
+                Response.StatusCode = result.GetErrorResponse.Status;
+                return Json(result.GetErrorResponse);
+            }
+
+            await _accountManagerService.GrantRoleByEmail(user.Email, user.Role);
+
+            return Json(result.Message);
+        }
+
+        [HttpPost]
+        [AuthorizeAdmin]
+        [Route("RemoveUser")]
+        public async Task<IActionResult> RemoveUser(Guid id)
+        {
+            var result = await _applicationUserService.RemoveItem(id);
 
             if (!result.IsSuccess)
             {

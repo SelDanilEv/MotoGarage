@@ -33,6 +33,7 @@ namespace MotoGarage.Controllers
                 return Json(getAvailableMenuItemResult.GetData);
             }
 
+            Response.StatusCode = getAvailableMenuItemResult.GetErrorResponse.Status;
             return Json(getAvailableMenuItemResult.Message);
         }
 
