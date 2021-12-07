@@ -40,6 +40,7 @@ namespace MotoGarage.Controllers
         [Route("Logout")]
         public async Task<IActionResult> Logout()
         {
+            HttpContext.Session.Clear();
             await accountAuthService.Logout();
             return Ok();
         }

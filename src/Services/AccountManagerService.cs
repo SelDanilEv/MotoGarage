@@ -204,30 +204,34 @@ namespace Services
         {
             var result = Result.SuccessResult();
 
-            var user = await _userManager.FindByEmailAsync(email);
-
-            if (user != null)
+            try
             {
-                var roles = await _userManager.GetRolesAsync(user);
-                await _userManager.RemoveFromRolesAsync(user, roles);
+                var user = await _userManager.FindByEmailAsync(email);
 
-                var grantResult = await _userManager.AddToRoleAsync(user, roleName);
-                if (grantResult.Succeeded)
+                if (user != null)
                 {
-                    result.BuildMessage("Role granted");
-                }
-                else
-                {
-                    var errorResult = Result.ErrorResult().BuildMessage("Grante role operation is failed\n");
+                    var roles = await _userManager.GetRolesAsync(user);
+                    await _userManager.RemoveFromRolesAsync(user, roles);
 
-                    foreach (var error in grantResult.Errors)
+                    var grantResult = await _userManager.AddToRoleAsync(user, roleName);
+                    if (grantResult.Succeeded)
                     {
-                        errorResult.AppendMessage(error.Description + "\n");
+                        result.BuildMessage("Role granted");
                     }
+                    else
+                    {
+                        var errorResult = Result.ErrorResult().BuildMessage("Grante role operation is failed\n");
 
-                    return errorResult;
+                        foreach (var error in grantResult.Errors)
+                        {
+                            errorResult.AppendMessage(error.Description + "\n");
+                        }
+
+                        return errorResult;
+                    }
                 }
             }
+            catch (Exception ex) { }
 
             return result;
         }
