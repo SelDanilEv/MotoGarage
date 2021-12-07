@@ -9,7 +9,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import { MenuItem } from "./../Interfaces/MenuItem";
-import { NavMenuContext } from "./GlobalState/NavMenu/NavMenuStore";
+import { CurrentUserContext } from "./GlobalState/NavMenu/CurrentUserStore";
 import wrapAPICall from "./GlobalState/LoadingState/wrapAPICall";
 import { LoadingContext } from "./GlobalState/LoadingState/LoadingStore";
 
@@ -51,7 +51,7 @@ const NavMenu = () => {
     menuItems: Array<MenuItem>(),
   });
 
-  const [navManuState, setNavManuState]: any = useContext(NavMenuContext);
+  const [navManuState, setNavManuState]: any = useContext(CurrentUserContext);
   const [loadingState, setLoadingState]: any = useContext(LoadingContext);
 
   useEffect(() => {

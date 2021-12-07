@@ -23,9 +23,7 @@ namespace Infrastructure.MappingProfile
                 ForMember(appUser => appUser.UserName,
                           opt => opt.MapFrom(userDto => userDto.Email));
 
-            CreateMap<UserModel, UserDto>().
-                ForMember(appUser => appUser.UserName,
-                          opt => opt.MapFrom(userDto => userDto.Email));
+            CreateMap<UserModel, UserDto>();
 
             CreateMap<UserDto, ApplicationUser>().
                 ForMember(appUser => appUser.UserName,
@@ -41,8 +39,10 @@ namespace Infrastructure.MappingProfile
             CreateMap<ServiceRequest, ServiceRequestDto>().
                 ForMember(dto => dto.Status,
                     opt => opt.MapFrom(request => request.Status.ToString())).
-                ForMember(dto => dto.,
-                    opt => opt.MapFrom(request => request.Status.ToString()));
+                ForMember(dto => dto.Reporter,
+                    opt => opt.MapFrom(request => request.Reporter)).
+                ForMember(dto => dto.Assignee,
+                    opt => opt.MapFrom(request => request.Assignee));
 
             #endregion
 

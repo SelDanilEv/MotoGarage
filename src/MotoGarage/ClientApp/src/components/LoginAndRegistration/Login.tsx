@@ -5,7 +5,7 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { ErrorResponse } from "./../../Interfaces/ErrorResponse";
 import { useContext, useState } from "react";
-import { NavMenuContext } from "../GlobalState/NavMenu/NavMenuStore";
+import { CurrentUserContext } from "../GlobalState/NavMenu/CurrentUserStore";
 import { LoadingContext } from "../GlobalState/LoadingState/LoadingStore";
 import FormField from "../Fields/FormField";
 import wrapAPICall from "../GlobalState/LoadingState/wrapAPICall";
@@ -19,7 +19,7 @@ const Login = () => {
     passwordError: "",
   });
 
-  const [navManuState, setNavManuState]: any = useContext(NavMenuContext);
+  const [navManuState, setNavManuState]: any = useContext(CurrentUserContext);
   const [loadingState, setLoadingState]: any = useContext(LoadingContext);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
