@@ -1,4 +1,5 @@
 import * as React from "react";
+// import { Grid, CssBaseline, Paper, Box} from "@material-ui/core";
 import { Grid, CssBaseline, Paper, Box } from "@mui/material";
 import { Outlet } from "react-router-dom";
 
@@ -35,7 +36,7 @@ const LoginAndRegistration = () => {
         elevation={6}
         square
         id="LoginAndRegistration"
-        // bgcolor="#151719"
+        bgcolor="#151719"
         // className="container-sm"
       >
         <Outlet />

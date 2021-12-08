@@ -1,7 +1,6 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
+import { Grid, CssBaseline, Paper, Box, Typography }from "@mui/material";
+// import { Grid, CssBaseline, Paper, Box, Typography} from "@material-ui/core";
 import { ErrorResponse } from "../../Interfaces/ErrorResponse";
 import { useContext, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
@@ -105,7 +104,7 @@ const Registration = () => {
       <Typography component="h1" variant="h5">
         Create new account
       </Typography>
-      <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+      <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
         <FormField
           name="name"
           autoComplete="name"
@@ -140,7 +139,7 @@ const Registration = () => {
           type="submit"
           fullWidth
           variant="contained"
-          sx={{ mt: 3, mb: 2 }}
+          sx={{ mt: 3, mb: 2 }} 
           isLoading={loadingState.Loading}
         >
           Create account

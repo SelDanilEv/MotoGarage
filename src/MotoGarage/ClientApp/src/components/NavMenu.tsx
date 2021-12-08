@@ -4,11 +4,11 @@ import {
   Typography,
   makeStyles,
   Button,
+  withStyles
 } from "@material-ui/core";
 import React, { useState, useEffect, useContext } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { withStyles } from "@material-ui/core/styles";
-import { MenuItem } from "./../Interfaces/MenuItem";
+import { MenuItem } from "../Interfaces/MenuItem";
 import { CurrentUserContext } from "./GlobalState/NavMenu/CurrentUserStore";
 import wrapAPICall from "./GlobalState/LoadingState/wrapAPICall";
 import { LoadingContext } from "./GlobalState/LoadingState/LoadingStore";

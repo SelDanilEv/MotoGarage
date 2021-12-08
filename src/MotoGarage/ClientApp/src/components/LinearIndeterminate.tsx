@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
 import { LoadingContext } from "./GlobalState/LoadingState/LoadingStore";
 import { useContext } from "react";
+// import { Box, LinearProgress } from "@material-ui/core";
 
 export default function LinearIndeterminate() {
   const [loadingState, setLoadingState]: any = useContext(LoadingContext);

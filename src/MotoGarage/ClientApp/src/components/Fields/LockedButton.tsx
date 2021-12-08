@@ -1,6 +1,5 @@
 import { Button } from "@mui/material";
 import * as React from "react";
-import { FormFieldProps } from "./FormFieldProps";
 import { LockedButtonProps } from "./LockedButtonProps";
 
 const FormField = ({ isLoading, ...restProps }: LockedButtonProps) => {

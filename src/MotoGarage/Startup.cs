@@ -111,7 +111,7 @@ namespace MotoGarage
 
             app.UseSpaStaticFiles(new StaticFileOptions
             {
-                RequestPath = "/clientapp/build"
+                RequestPath = "/ClientApp/build"
             });
 
             app.UseSpa(spa =>
