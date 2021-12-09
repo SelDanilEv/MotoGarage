@@ -1,6 +1,3 @@
-import { useContext } from "react";
-import { LoadingContext } from "./LoadingStore";
-
 const wrapAPICall = async (
   action: () => Promise<void>,
   setLoadingState: (state: any) => void

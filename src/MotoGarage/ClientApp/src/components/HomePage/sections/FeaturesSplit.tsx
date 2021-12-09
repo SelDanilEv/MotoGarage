@@ -2,9 +2,13 @@ import React from "react";
 import classNames from "classnames";
 import Image from "../elements/Image";
 
-import { SectionSplitInitProps } from "../interfaces/SectionInitProps";
-import { SectionSplitProps } from "../interfaces/SectionSplitProps";
+import { SectionSplitInitProps, } from "../interfaces/SectionInitProps";
+import SectionSplitProps from "../interfaces/SectionSplitProps";
 import SectionHeader from "./partials/SectionHeader";
+
+import features_split_image_01 from "./../../../assets/images/features-split-image-01.png";
+import features_split_image_02 from "./../../../assets/images/features-split-image-02.png";
+import features_split_image_03 from "./../../../assets/images/features-split-image-03.png";
 
 const FeaturesSplit = (inProps: SectionSplitProps) => {
   const {
@@ -82,7 +86,7 @@ const FeaturesSplit = (inProps: SectionSplitProps) => {
                 data-reveal-container=".split-item"
               >
                 <Image
-                  src={require("./../../../assets/images/features-split-image-01.png")}
+                  src={features_split_image_01}
                   alt="Features split 01"
                   width={528}
                   height={396}
@@ -115,7 +119,7 @@ const FeaturesSplit = (inProps: SectionSplitProps) => {
                 data-reveal-container=".split-item"
               >
                 <Image
-                  src={require("./../../../assets/images/features-split-image-02.png")}
+                  src={features_split_image_02}
                   alt="Features split 02"
                   width={528}
                   height={396}
@@ -148,7 +152,7 @@ const FeaturesSplit = (inProps: SectionSplitProps) => {
                 data-reveal-container=".split-item"
               >
                 <Image
-                  src={require("./../../../assets/images/features-split-image-03.png")}
+                  src={features_split_image_03}
                   alt="Features split 03"
                   width={528}
                   height={396}

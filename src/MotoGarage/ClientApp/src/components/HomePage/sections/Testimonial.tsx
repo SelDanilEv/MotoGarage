@@ -2,7 +2,7 @@ import React from "react";
 import classNames from "classnames";
 import SectionHeader from "./partials/SectionHeader";
 import { SectionTilesInitProps } from "../interfaces/SectionInitProps";
-import { SectionTilesProps } from "../interfaces/SectionTilesProps";
+import SectionTilesProps from "../interfaces/SectionTilesProps";
 
 const Testimonial = (inProps: SectionTilesProps) => {
   const props = {

@@ -4,7 +4,7 @@ import { Typography } from "@material-ui/core";
 import classNames from "classnames";
 
 import { SectionHeaderInitProps } from "../../interfaces/SectionInitProps";
-import { SectionHeaderProps } from "../../interfaces/SectionHeaderProps";
+import SectionHeaderProps from "../../interfaces/SectionHeaderProps";
 
 const SectionHeader = (inProps: SectionHeaderProps) => {
   const { className, tag, data, children, ...restProps } = {

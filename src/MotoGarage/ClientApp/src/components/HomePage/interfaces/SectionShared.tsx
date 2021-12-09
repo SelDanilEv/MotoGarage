@@ -1,4 +1,4 @@
-export interface SectionShared {
+export default interface SectionShared {
   topOuterDivider?: Boolean;
   bottomOuterDivider?: Boolean;
   topDivider?: Boolean;

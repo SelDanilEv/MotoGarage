@@ -4,7 +4,7 @@ import ButtonGroup from "../elements/ButtonGroup";
 import Button from "../elements/Button";
 
 import { SectionInitProps } from "../interfaces/SectionInitProps";
-import { SectionShared } from "../interfaces/SectionShared";
+import SectionShared from "../interfaces/SectionShared";
 
 const Hero = (inProps: SectionShared) => {
   const {

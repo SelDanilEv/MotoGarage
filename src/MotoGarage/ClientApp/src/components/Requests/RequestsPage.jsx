@@ -1,6 +1,6 @@
 import * as React from "react";
 import { forwardRef, useContext, useEffect, useState } from "react";
-import { LoadingContext } from "../GlobalState/LoadingState/LoadingStore";
+import LoadingContext from "../GlobalState/LoadingState/LoadingStore";
 import wrapAPICall from "../GlobalState/LoadingState/wrapAPICall";
 
 import MaterialTable from "material-table";

@@ -1,5 +1,5 @@
-import { SectionShared } from "./SectionShared";
+import SectionShared from "./SectionShared";
 
-export interface SectionTilesProps extends SectionShared {
+export default interface SectionTilesProps extends SectionShared {
   pushLeft? : Boolean;
 }

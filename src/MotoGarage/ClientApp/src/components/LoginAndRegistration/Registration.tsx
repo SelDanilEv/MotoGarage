@@ -1,7 +1,7 @@
 import * as React from "react";
-import { Grid, CssBaseline, Paper, Box, Typography }from "@mui/material";
+import { Grid, CssBaseline, Paper, Box, Typography } from "@mui/material";
 // import { Grid, CssBaseline, Paper, Box, Typography} from "@material-ui/core";
-import { ErrorResponse } from "../../Interfaces/ErrorResponse";
+import ErrorResponse from "../../Interfaces/ErrorResponse";
 import { useContext, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import FormField from "../Fields/FormField";
@@ -139,7 +139,7 @@ const Registration = () => {
           type="submit"
           fullWidth
           variant="contained"
-          sx={{ mt: 3, mb: 2 }} 
+          sx={{ mt: 3, mb: 2 }}
           isLoading={loadingState.Loading}
         >
           Create account
