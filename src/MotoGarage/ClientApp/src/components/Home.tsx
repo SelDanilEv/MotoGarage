@@ -4,6 +4,8 @@ import FeaturesTiles from "./HomePage/sections/FeaturesTiles";
 import Hero from "./HomePage/sections/Hero";
 import Testimonial from "./HomePage/sections/Testimonial";
 
+import "./../assets/scss/style.min.css";
+
 const Home = () => {
   return (
     <>

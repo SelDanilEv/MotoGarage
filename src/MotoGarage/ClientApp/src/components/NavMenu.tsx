@@ -82,7 +82,7 @@ const NavMenu = () => {
       <Toolbar className={toolbar}>
         {femmecubatorLogo}
         {console.log(navManuState.CurrentUser)}
-        {navManuState.CurrentUser ? navManuState.CurrentUser.email : ""}
+        {navManuState.CurrentUser ? navManuState.CurrentUser.name : ""}
         <div>{getMenuButtons()}</div>
       </Toolbar>
     );
