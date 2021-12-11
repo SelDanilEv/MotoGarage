@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Infrastructure.Dto.NavMenu;
+using Infrastructure.Dto.Reviews;
 using Infrastructure.Dto.ServiceRequest;
 using Infrastructure.Dto.User;
 using Infrastructure.Models.CommonModels;
 using Infrastructure.Models.Identity;
 using Infrastructure.Models.Menu;
+using Infrastructure.Models.Reviews;
 using Infrastructure.Models.ServiceRequests;
 using Infrastructure.Models.User;
 
@@ -23,9 +25,13 @@ namespace Infrastructure.MappingProfile
                 ForMember(appUser => appUser.UserName,
                           opt => opt.MapFrom(userDto => userDto.Email));
 
-            CreateMap<UserModel, UserDto>().
+            CreateMap<CreateUserDto, ApplicationUser>().
                 ForMember(appUser => appUser.UserName,
-                          opt => opt.MapFrom(userDto => userDto.Email));
+                          opt => opt.MapFrom(userDto => userDto.Email)).
+                ForMember(appUser => appUser.Name,
+                          opt => opt.MapFrom(userDto => userDto.Name));
+
+            CreateMap<UserModel, UserDto>();
 
             CreateMap<UserDto, ApplicationUser>().
                 ForMember(appUser => appUser.UserName,
@@ -34,15 +40,23 @@ namespace Infrastructure.MappingProfile
             CreateMap<ApplicationUser, LoginUserDto>().
                 ForMember(appUser => appUser.Email,
                           opt => opt.MapFrom(userDto => userDto.UserName));
+            CreateMap<ApplicationUser, CreateUserDto>().
+                ForMember(appUser => appUser.Email,
+                          opt => opt.MapFrom(userDto => userDto.UserName)).
+                ForMember(appUser => appUser.Name,
+                          opt => opt.MapFrom(userDto => userDto.Name));
             #endregion
 
             #region Service requests
 
             CreateMap<ServiceRequest, ServiceRequestDto>().
-                ForMember(dto => dto.Status,
-                    opt => opt.MapFrom(request => request.Status.ToString())).
-                ForMember(dto => dto.,
-                    opt => opt.MapFrom(request => request.Status.ToString()));
+                ForMember(dto => dto.Reporter,
+                    opt => opt.MapFrom(request => request.Reporter)).
+                ForMember(dto => dto.Assignee,
+                    opt => opt.MapFrom(request => request.Assignee));
+
+            CreateMap<UpdateServiceRequestDto, ServiceRequest>();
+            CreateMap<ReviewDto, Review>();
 
             #endregion
 

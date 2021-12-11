@@ -19,6 +19,7 @@ const Layout = () => {
         <Routes>
           <Route path={"/"} element={<Home />} />
           <Route path={"/Admin/ManageUsers"} element={<AdminPage />} />
+          <Route path={"/ServiceRequests/Manage"} element={<AdminPage />} />
           <Route path="/Account" element={<LoginAndRegistration />}>
             <Route path="Login" element={<Login />} />
             <Route path="Registration" element={<Registration />} />

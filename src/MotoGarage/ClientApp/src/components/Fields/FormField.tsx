@@ -1,6 +1,6 @@
 import { TextField } from "@mui/material";
 import * as React from "react";
-import { FormFieldProps } from "./FormFieldProps";
+import FormFieldProps from "./FormFieldProps";
 
 const FormField = ({ name, error, ...restProps }: FormFieldProps) => {
   return (

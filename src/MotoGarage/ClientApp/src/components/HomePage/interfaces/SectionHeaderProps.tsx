@@ -1,7 +1,8 @@
 import { Variant } from "@mui/material/styles/createTypography";
+// import { Variant } from "@material-ui/core/styles/createTypography";
 import { ReactNode } from "react";
 
-export interface SectionHeaderProps {
+export default interface SectionHeaderProps {
   data: {
     title?: string;
     paragraph?: string;

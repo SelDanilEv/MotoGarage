@@ -15,7 +15,7 @@ const themeDark = createTheme({
 
 const LayoutDefault = ({ children }: { children: ReactNode }) => (
   <ThemeProvider theme={themeDark}>
-    {/* <CssBaseline /> */}
+    <CssBaseline />
     {/* <Header navPosition="right" className="reveal-from-bottom" /> */}
     <main className="site-content">{children}</main>
     {/* <Footer /> */}

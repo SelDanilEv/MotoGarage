@@ -189,11 +189,11 @@ textarea.form-input {
 		height: 16px;
 		cursor: pointer;
 
-		&:checked {
-			background-color: color-bg(check-radio-checked) !important;
-			border-color: color-bg(check-radio-checked) !important;
-			background-position: 50%;
-		}
+		// &:checked {
+		// 	background-color: color-bg(check-radio-checked) !important;
+		// 	border-color: color-bg(check-radio-checked) !important;
+		// 	background-position: 50%;
+		// }
 	}
 }
 
@@ -201,10 +201,6 @@ textarea.form-input {
 
 	input {
 		border-radius: 2px;
-
-		&:checked {
-			background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+IDxwYXRoIGQ9Ik0xMS40IDVMMTAgMy42bC00IDQtMi0yTDIuNiA3IDYgMTAuNHoiIGZpbGw9IiNGRkYiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==);
-		}
 	}
 }
 
@@ -256,16 +252,17 @@ textarea.form-input {
 		}
 	}
 
-	input:checked {
+	// TO CHECK
+	// input:checked {
 
-		+ .form-switch-icon {
-			background: color-bg(switch-checked);
+	// 	.form-switch-icon {
+	// 		background: color-bg(switch-checked);
 
-			&::before {
-				left: 30px;
-			}
-		}
-    }
+	// 		&::before {
+	// 			left: 30px;
+	// 		}
+	// 	}
+    // }
     
     > span {
 
@@ -400,18 +397,6 @@ textarea.form-input {
         color: color(check-radio-inverse);
     }
 
-	.form-checkbox,
-	.form-radio {
-
-		input {
-
-			&:checked {
-				background-color: color-bg(check-checked-inverse) !important;
-				border-color: color-bg(check-checked-inverse) !important;
-			}
-		}
-	}
-
 	.form-switch {
 
 		.form-switch-icon {
@@ -419,12 +404,13 @@ textarea.form-input {
 
 		}
 
-		input:checked {
+		// TO CHECK
+		// input:checked {
 
-			+ .form-switch-icon {
-				background: color-bg(switch-checked-inverse);
-			}
-		}
+		// 	.form-switch-icon {
+		// 		background: color-bg(switch-checked-inverse);
+		// 	}
+		// }
     }
     
     .form-slider {

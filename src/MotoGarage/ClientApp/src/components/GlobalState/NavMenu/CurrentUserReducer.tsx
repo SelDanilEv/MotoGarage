@@ -1,4 +1,4 @@
-const NavMenuReducer = (state: any, action: any) => {
+const CurrentUserReducer = (state: any, action: any) => {
   switch (action.type) {
     case "SET_USER":
       return {
@@ -15,4 +15,4 @@ const NavMenuReducer = (state: any, action: any) => {
   }
 };
 
-export default NavMenuReducer;
+export default CurrentUserReducer;

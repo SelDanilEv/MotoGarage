@@ -4,12 +4,12 @@ import {
   Typography,
   makeStyles,
   Button,
+  withStyles
 } from "@material-ui/core";
 import React, { useState, useEffect, useContext } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { withStyles } from "@material-ui/core/styles";
-import { MenuItem } from "./../Interfaces/MenuItem";
-import { NavMenuContext } from "./GlobalState/NavMenu/NavMenuStore";
+import  MenuItem  from "../Interfaces/MenuItem";
+import { CurrentUserContext } from "./GlobalState/NavMenu/CurrentUserStore";
 import wrapAPICall from "./GlobalState/LoadingState/wrapAPICall";
 import { LoadingContext } from "./GlobalState/LoadingState/LoadingStore";
 
@@ -51,7 +51,7 @@ const NavMenu = () => {
     menuItems: Array<MenuItem>(),
   });
 
-  const [navManuState, setNavManuState]: any = useContext(NavMenuContext);
+  const [navManuState, setNavManuState]: any = useContext(CurrentUserContext);
   const [loadingState, setLoadingState]: any = useContext(LoadingContext);
 
   useEffect(() => {
@@ -82,7 +82,7 @@ const NavMenu = () => {
       <Toolbar className={toolbar}>
         {femmecubatorLogo}
         {console.log(navManuState.CurrentUser)}
-        {navManuState.CurrentUser ? navManuState.CurrentUser.email : ""}
+        {navManuState.CurrentUser ? navManuState.CurrentUser.name : ""}
         <div>{getMenuButtons()}</div>
       </Toolbar>
     );

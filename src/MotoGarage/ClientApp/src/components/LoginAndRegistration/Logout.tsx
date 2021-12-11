@@ -1,13 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { useContext, useEffect } from "react";
-import { NavMenuContext } from "../GlobalState/NavMenu/NavMenuStore";
+import { CurrentUserContext } from "../GlobalState/NavMenu/CurrentUserStore";
 import { LoadingContext } from "../GlobalState/LoadingState/LoadingStore";
 import wrapAPICall from "../GlobalState/LoadingState/wrapAPICall";
 
 const Logout = () => {
   const navigate = useNavigate();
 
-  const [navMenuState, setNavMenuState] = useContext(NavMenuContext);
+  const [navMenuState, setNavMenuState] = useContext(CurrentUserContext);
   const [loadingState, setLoadingState]: any = useContext(LoadingContext);
 
   const logout = async () => {

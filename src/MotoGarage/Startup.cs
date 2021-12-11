@@ -12,6 +12,7 @@ using Services;
 using Services.Interfaces;
 using AutoMapper;
 using Infrastructure.MappingProfile;
+using System.IO;
 
 namespace MotoGarage
 {
@@ -109,9 +110,14 @@ namespace MotoGarage
                     pattern: "api/{controller}/{action=Index}/{id?}");
             });
 
+            app.UseSpaStaticFiles(new StaticFileOptions
+            {
+                RequestPath = "/ClientApp/build"
+            });
+
             app.UseSpa(spa =>
             {
-                spa.Options.SourcePath = "ClientApp";
+                spa.Options.SourcePath = Path.Join(env.ContentRootPath, "ClientApp");;
 
                 if (env.IsDevelopment())
                 {

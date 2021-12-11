@@ -1,13 +1,15 @@
 import * as React from "react";
 import LoadingStore from "./LoadingState/LoadingStore";
-import NavMenuStore from "./NavMenu/NavMenuStore";
+import CurrentUserStore from "./NavMenu/CurrentUserStore";
 
 const UseGlobalState = ({ children }: any) => {
   return (
     <>
-      <NavMenuStore>
-        <LoadingStore>{children}</LoadingStore>
-      </NavMenuStore>
+      <CurrentUserStore>
+        <LoadingStore>
+          {children}
+        </LoadingStore>
+      </CurrentUserStore>
     </>
   );
 };
