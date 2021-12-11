@@ -8,6 +8,8 @@ using Infrastructure.Enums;
 using Infrastructure.Dto.ServiceRequest;
 using AutoMapper;
 using Infrastructure.Models.User;
+using System;
+using Infrastructure.Models.Reviews;
 
 namespace MotoGarage.Controllers
 {
@@ -15,28 +17,28 @@ namespace MotoGarage.Controllers
     [Route("api/ServiceRequest")]
     public class ServiceRequestController : BaseController
     {
-        private IServiceRequestService serviceRequestService;
+        private IServiceRequestService _serviceRequestService;
 
         public ServiceRequestController
             (IAccountManagerService accountManagerService,
             IServiceRequestService serviceRequestService,
             IMapper mapper) : base(accountManagerService, mapper)
         {
-            this.serviceRequestService = serviceRequestService;
+            _serviceRequestService = serviceRequestService;
         }
 
         [HttpGet]
-        [AuthorizeAdmin]
+        [AuthorizeClient]
         [Route("GetUserRequests")]
         public async Task<IActionResult> GetUserRequests()
         {
             var currentUser = _mapper.Map<UserModel>(CurrentUser);
-            var result = await serviceRequestService.GetUserRequests(currentUser);
+            var result = await _serviceRequestService.GetUserRequests(currentUser);
 
             if (result == null || !result.IsSuccess)
             {
                 Response.StatusCode = result.GetErrorResponse.Status;
-                return BadRequest(result?.Message ?? "Result is empty");
+                return Json(result?.Message ?? "Result is empty");
             }
 
             return Json(result);
@@ -47,14 +49,15 @@ namespace MotoGarage.Controllers
         [Route("GetAllRequests")]
         public async Task<IActionResult> GetAllRequests()
         {
-            var result = await serviceRequestService.GetItems();
+            var result = await _serviceRequestService.GetItems();
 
             if (result == null || !result.IsSuccess)
             {
-                return BadRequest(result?.Message ?? "Result is empty");
+                Response.StatusCode = result.GetErrorResponse.Status;
+                return Json(result?.Message ?? "Result is empty");
             }
 
-            return Ok(result);
+            return Json(result);
         }
 
         [HttpPost]
@@ -69,14 +72,51 @@ namespace MotoGarage.Controllers
                 Status = ServiceRequestStatus.Triage,
                 ReporterId = CurrentUser.Id
             };
-            var result = await serviceRequestService.AddItem(newRequest);
+            var result = await _serviceRequestService.AddItem(newRequest);
 
             if (result == null || !result.IsSuccess)
             {
-                return BadRequest(result?.Message ?? "Result is empty");
+                Response.StatusCode = result.GetErrorResponse.Status;
+                return Json(result?.Message ?? "Result is empty");
             }
 
-            return Ok(result);
+            return Json(result);
+        }
+
+        [HttpPost]
+        [AuthorizeClient]
+        [Route("UpdateServiceRequest")]
+        public async Task<IActionResult> UpdateServiceRequest(UpdateServiceRequestDto updateServiceRequest)
+        {
+            var newServiceRequest = _mapper.Map<ServiceRequest>(updateServiceRequest);
+
+            var updateRequestResult = await _serviceRequestService.UpdateItem(newServiceRequest);
+
+            if (!updateRequestResult.IsSuccess)
+            {
+                Response.StatusCode = updateRequestResult.GetErrorResponse.Status;
+                return Json(updateRequestResult?.Message ?? "Change status failed");
+            }
+
+            return Json(updateRequestResult);
+        }
+
+        [HttpPost]
+        [AuthorizeClient]
+        [Route("AddRequestReview")]
+        public async Task<IActionResult> AddRequestReview(AddRequestReviewDto addRequestReview)
+        {
+            var review = _mapper.Map<Review>(addRequestReview.Review);
+
+            var updateRequestResult = await _serviceRequestService.AddReview(addRequestReview.Id, review);
+
+            if (!updateRequestResult.IsSuccess)
+            {
+                Response.StatusCode = updateRequestResult.GetErrorResponse.Status;
+                return Json(updateRequestResult?.Message ?? "Change status failed");
+            }
+
+            return Json(updateRequestResult);
         }
 
         [HttpPost]
@@ -84,21 +124,15 @@ namespace MotoGarage.Controllers
         [Route("ChangeStatus")]
         public async Task<IActionResult> ChangeStatus(ChangeRequestStatusDto changeRequestStatusDto)
         {
-            var getRequestResult = await serviceRequestService.GetItemById(changeRequestStatusDto.RequestId);
-
-            if (!getRequestResult.IsSuccess)
-            {
-                return BadRequest(getRequestResult?.Message ?? "Request is not found");
-            }
-
-            var updateRequestResult = await serviceRequestService.ChangeStatus(getRequestResult.GetData, changeRequestStatusDto.NewStatus);
+            var updateRequestResult = await _serviceRequestService.ChangeStatus(changeRequestStatusDto.RequestId, changeRequestStatusDto.NewStatus);
 
             if (!updateRequestResult.IsSuccess)
             {
-                return BadRequest(updateRequestResult?.Message ?? "Change status failed");
+                Response.StatusCode = updateRequestResult.GetErrorResponse.Status;
+                return Json(updateRequestResult?.Message ?? "Change status failed");
             }
 
-            return Ok(updateRequestResult);
+            return Json(updateRequestResult);
         }
 
         [HttpPost]
@@ -106,21 +140,39 @@ namespace MotoGarage.Controllers
         [Route("AssigneeServiceRequest")]
         public async Task<IActionResult> AssigneeServiceRequest(AssigneeServiceRequestDto assigneeServiceRequestDto)
         {
-            var getRequestResult = await serviceRequestService.GetItemById(assigneeServiceRequestDto.RequestId);
+            var getRequestResult = await _serviceRequestService.GetItemById(assigneeServiceRequestDto.RequestId);
 
             if (!getRequestResult.IsSuccess)
             {
-                return BadRequest(getRequestResult?.Message ?? "Request is not found");
+                Response.StatusCode = getRequestResult.GetErrorResponse.Status;
+                return Json(getRequestResult?.Message ?? "Request is not found");
             }
 
-            var updateRequestResult = await serviceRequestService.AssigneeServiceRequest(getRequestResult.GetData, assigneeServiceRequestDto.UserId);
+            var updateRequestResult = await _serviceRequestService.AssigneeServiceRequest(getRequestResult.GetData, assigneeServiceRequestDto.UserId);
 
             if (!updateRequestResult.IsSuccess)
             {
-                return BadRequest(updateRequestResult?.Message ?? "Change status failed");
+                Response.StatusCode = updateRequestResult.GetErrorResponse.Status;
+                return Json(updateRequestResult?.Message ?? "Change status failed");
             }
 
-            return Ok(updateRequestResult);
+            return Json(updateRequestResult);
+        }
+
+        [HttpPost]
+        [AuthorizeAdmin]
+        [Route("RemoveServiceRequest")]
+        public async Task<IActionResult> RemoveServiceRequest(Guid guid)
+        {
+            var result = await _serviceRequestService.RemoveItem(guid);
+
+            if (result == null || !result.IsSuccess)
+            {
+                Response.StatusCode = result.GetErrorResponse.Status;
+                return Json(result?.Message ?? "Result is empty");
+            }
+
+            return Json(result);
         }
     }
 }

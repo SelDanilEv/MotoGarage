@@ -8,10 +8,11 @@ using System;
 using System.Collections.Generic;
 using Infrastructure.Enums;
 using AutoMapper;
-using Infrastructure.Models.CommonModels;
 using Infrastructure.Models.ServiceRequests;
 using System.Linq;
 using Infrastructure.Models.User;
+using Infrastructure.Dto.ServiceRequest;
+using Infrastructure.Models.Reviews;
 
 namespace Services
 {
@@ -28,6 +29,33 @@ namespace Services
             _mapper = mapper;
         }
 
+        public async Task<IResultWithData<IList<ServiceRequestDto>>> GetUserRequests(UserModel user)
+        {
+            var getAllResult = await GetItems();
+
+            if (!getAllResult.IsSuccess)
+            {
+                return Result<IList<ServiceRequestDto>>.ErrorResult(getAllResult);
+            }
+
+            var data = _mapper.Map<IList<ServiceRequestDto>>(getAllResult.GetData);
+            var result = Result<IList<ServiceRequestDto>>.SuccessResult(data);
+
+            switch (user.Role)
+            {
+                case Roles.Client:
+                    result.Data = result.GetData.Where(x => x.Reporter?.Id == user.Id).ToList();
+                    break;
+                case Roles.Employee:
+                    result.Data = result.GetData.Where(x => x.Assignee?.Id == user.Id).ToList();
+                    break;
+                case Roles.Admin:
+                    break;
+            }
+
+            return result;
+        }
+
         public async Task<IResult> AssigneeServiceRequest(ServiceRequest serviceRequest, Guid employeeId)
         {
             var oldServiceRequest = await GetItemById(serviceRequest.Id);
@@ -40,36 +68,28 @@ namespace Services
             return Result.SuccessResult();
         }
 
-        public async Task<IResult> ChangeStatus(ServiceRequest serviceRequest, ServiceRequestStatus status)
+        public async Task<IResult> ChangeStatus(Guid requestId, ServiceRequestStatus status)
         {
-            var oldServiceRequest = await GetItemById(serviceRequest.Id);
+            var oldServiceRequest = await GetItemById(requestId);
 
             var newServiceRequest = oldServiceRequest.GetData;
             newServiceRequest.Status = status;
 
-            await UpdateItem(newServiceRequest);
+            var result = await UpdateItem(newServiceRequest);
 
-            return Result.SuccessResult();
+            return result;
         }
 
-        public async Task<T> SetApplicationUserFields<T>(object item)
+        public async Task<IResult> AddReview(Guid requestId, Review review)
         {
-            var result = (ServiceRequest)item;
+            var oldServiceRequest = await GetItemById(requestId);
 
-            var reporterResult = await _applicationUserService.GetItemById(result.ReporterId);
-            var assigneeResult = await _applicationUserService.GetItemById(result.AssigneeId);
+            var newServiceRequest = oldServiceRequest.GetData;
+            newServiceRequest.Review = review;
 
-            if (reporterResult.IsSuccess && reporterResult.GetData != null)
-            {
-                result.Reporter = _mapper.Map<UserModel>(reporterResult.GetData);
-            }
+            var result = await UpdateItem(newServiceRequest);
 
-            if (assigneeResult.IsSuccess && assigneeResult.GetData != null)
-            {
-                result.Assignee = _mapper.Map<UserModel>(assigneeResult.GetData);
-            }
-
-            return (T)item;
+            return result;
         }
 
         public override async Task<IResultWithData<ServiceRequest>> GetItemById(Guid id)
@@ -99,29 +119,29 @@ namespace Services
             return result;
         }
 
-
-        public async Task<IResultWithData<IList<ServiceRequest>>> GetUserRequests(UserModel user)
+        public async Task<T> SetApplicationUserFields<T>(object item)
         {
-            var getAllResult = (Result<IList<ServiceRequest>>)await GetItems();
-
-            if (!getAllResult.IsSuccess)
+            if (item == null)
             {
-                return getAllResult;
+                return (T)item;
             }
 
-            switch (user.Role)
+            var result = (ServiceRequest)item;
+
+            var reporterResult = await _applicationUserService.GetItemById(result.ReporterId);
+            var assigneeResult = await _applicationUserService.GetItemById(result.AssigneeId);
+
+            if (reporterResult.IsSuccess && reporterResult.GetData != null)
             {
-                case Roles.Client:
-                    getAllResult.Data = getAllResult.GetData.Where(x => x.ReporterId == user.Id).ToList();
-                    break;
-                case Roles.Employee:
-                    getAllResult.Data = getAllResult.GetData.Where(x => x.AssigneeId == user.Id).ToList();
-                    break;
-                case Roles.Admin:
-                    break;
+                result.Reporter = _mapper.Map<UserModel>(reporterResult.GetData);
             }
 
-            return getAllResult;
+            if (assigneeResult.IsSuccess && assigneeResult.GetData != null)
+            {
+                result.Assignee = _mapper.Map<UserModel>(assigneeResult.GetData);
+            }
+
+            return (T)item;
         }
     }
 }
