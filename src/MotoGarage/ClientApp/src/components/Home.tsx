@@ -1,23 +1,23 @@
 import * as React from "react";
-import FeaturesSplit from "./HomePage/sections/FeaturesSplit";
-import FeaturesTiles from "./HomePage/sections/FeaturesTiles";
-import Hero from "./HomePage/sections/Hero";
-import Testimonial from "./HomePage/sections/Testimonial";
+import HomeWorkflow from "./HomePage/sections/HomeWorkflow";
+import HomeFeatures from "./HomePage/sections/HomeFeatures";
+import HomeHeader from "./HomePage/sections/HomeHeader";
+import HomeReview from "./HomePage/sections/HomeReview";
 
 import "./../assets/scss/style.min.css";
 
 const Home = () => {
   return (
     <>
-      <Hero className="illustration-section-01" />
-      <FeaturesTiles />
-      <FeaturesSplit
+      <HomeHeader className="illustration-section-01" />
+      <HomeFeatures />
+      <HomeWorkflow
         invertMobile
         topDivider
         imageFill
         className="illustration-section-02"
       />
-      <Testimonial topDivider />
+      <HomeReview topDivider />
     </>
   );
 };

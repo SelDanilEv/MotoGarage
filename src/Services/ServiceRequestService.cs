@@ -13,6 +13,7 @@ using System.Linq;
 using Infrastructure.Models.User;
 using Infrastructure.Dto.ServiceRequest;
 using Infrastructure.Models.Reviews;
+using Infrastructure.Dto.Reviews;
 
 namespace Services
 {
@@ -90,6 +91,22 @@ namespace Services
             var result = await UpdateItem(newServiceRequest);
 
             return result;
+        }
+
+        public async Task<IResultWithData<IList<ReviewDisplayDto>>> GetAllReviews()
+        {
+            var serviseRequestsResult = await this.GetItems();
+
+            if (!serviseRequestsResult.IsSuccess)
+            {
+                return Result<IList<ReviewDisplayDto>>.ErrorResult();
+            }
+
+            var filteredRequests = serviseRequestsResult.GetData.Where(x => x.Review != null).ToList();
+
+            var reviews = _mapper.Map<IList<ReviewDisplayDto>>(filteredRequests);
+
+            return Result<IList<ReviewDisplayDto>>.SuccessResult(reviews);
         }
 
         public override async Task<IResultWithData<ServiceRequest>> GetItemById(Guid id)

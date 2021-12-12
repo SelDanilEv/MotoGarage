@@ -9,6 +9,7 @@ import Login from "./LoginAndRegistration/Login";
 import LinearIndeterminate from "./LinearIndeterminate";
 import LayoutDefault from "../contentLayout/LayoutDefault";
 import AdminPage from "./AdminPage/AdminPage";
+import RequestsPage from "./Requests/RequestsPage";
 
 const Layout = () => {
   return (
@@ -19,7 +20,7 @@ const Layout = () => {
         <Routes>
           <Route path={"/"} element={<Home />} />
           <Route path={"/Admin/ManageUsers"} element={<AdminPage />} />
-          <Route path={"/ServiceRequests/Manage"} element={<AdminPage />} />
+          <Route path={"/ServiceRequests/Manage"} element={<RequestsPage />} />
           <Route path="/Account" element={<LoginAndRegistration />}>
             <Route path="Login" element={<Login />} />
             <Route path="Registration" element={<Registration />} />

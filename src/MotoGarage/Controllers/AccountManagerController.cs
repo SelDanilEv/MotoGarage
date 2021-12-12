@@ -39,17 +39,32 @@ namespace MotoGarage.Controllers
                 return Json(getAllResult.Message);
             }
 
-            var userList = new List<Infrastructure.Models.User.UserModel>();
+            var userList = new List<UserModel>();
 
             foreach (var user in getAllResult.GetData)
             {
-                var model = _mapper.Map<Infrastructure.Models.User.UserModel>(user);
+                var model = _mapper.Map<UserModel>(user);
                 model.Role = (await _accountManagerService.GetRoleByEmail(model.Email)).GetData;
 
                 userList.Add(model);
             }
 
             return Json(userList);
+        }
+
+        [HttpGet]
+        [AuthorizeClient]
+        [Route("GetAllEmployees")]
+        public async Task<IActionResult> GetAllEmployees()
+        {
+            var getAllResult = await _applicationUserService.GetAllEmployees();
+
+            if (!getAllResult.IsSuccess)
+            {
+                Response.StatusCode = getAllResult.GetErrorResponse.Status;
+                return Json(getAllResult.Message);
+            }
+            return Json(getAllResult.GetData);
         }
 
         [HttpPost]

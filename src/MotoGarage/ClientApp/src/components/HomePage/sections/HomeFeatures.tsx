@@ -13,7 +13,7 @@ import feature_tile_icon_04 from "./../../../assets/images/feature-tile-icon-04.
 import feature_tile_icon_05 from "./../../../assets/images/feature-tile-icon-05.svg";
 import feature_tile_icon_06 from "./../../../assets/images/feature-tile-icon-06.svg";
 
-const FeaturesTiles = (inProps: SectionTilesProps) => {
+const HomeFeatures = (inProps: SectionTilesProps) => {
   const {
     className,
     topOuterDivider,
@@ -50,9 +50,10 @@ const FeaturesTiles = (inProps: SectionTilesProps) => {
   );
 
   const sectionHeader = {
-    title: "Build up the whole picture",
+    title: "Why choose us?",
     paragraph:
-      "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum — semper quis lectus nulla at volutpat diam ut venenatis.",
+      "We have many advantages that our competitors do not have." +
+      "We are also the first service with such a wide range of services.",
   };
 
   return (
@@ -73,11 +74,10 @@ const FeaturesTiles = (inProps: SectionTilesProps) => {
                   </div>
                 </div>
                 <div className="features-tiles-item-content">
-                  <h4 className="mt-0 mb-8">Robust Workflow</h4>
+                  <h4 className="mt-0 mb-8">Customer care</h4>
                   <p className="m-0 text-sm">
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupidatat.
+                    The quality of performed work is the most important goal for us.
+                    It is important for us client is satisfied with our service
                   </p>
                 </div>
               </div>
@@ -98,11 +98,10 @@ const FeaturesTiles = (inProps: SectionTilesProps) => {
                   </div>
                 </div>
                 <div className="features-tiles-item-content">
-                  <h4 className="mt-0 mb-8">Robust Workflow</h4>
+                  <h4 className="mt-0 mb-8">Request system</h4>
                   <p className="m-0 text-sm">
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupidatat.
+                    We have a special system that allows us to
+                    quickly and efficiently process all incoming requests
                   </p>
                 </div>
               </div>
@@ -123,11 +122,11 @@ const FeaturesTiles = (inProps: SectionTilesProps) => {
                   </div>
                 </div>
                 <div className="features-tiles-item-content">
-                  <h4 className="mt-0 mb-8">Robust Workflow</h4>
+                  <h4 className="mt-0 mb-8">Services</h4>
                   <p className="m-0 text-sm">
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupidatat.
+                    We are engaged in a wide range of services, such as:
+                    Motorcycle selection, maintenance, repair of faults, winter storage
+                    services, travel preparation, consultations.
                   </p>
                 </div>
               </div>
@@ -145,11 +144,9 @@ const FeaturesTiles = (inProps: SectionTilesProps) => {
                   </div>
                 </div>
                 <div className="features-tiles-item-content">
-                  <h4 className="mt-0 mb-8">Robust Workflow</h4>
+                  <h4 className="mt-0 mb-8">Equipment</h4>
                   <p className="m-0 text-sm">
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupidatat.
+                    We use new equipment and only high-quality tools and components
                   </p>
                 </div>
               </div>
@@ -170,11 +167,9 @@ const FeaturesTiles = (inProps: SectionTilesProps) => {
                   </div>
                 </div>
                 <div className="features-tiles-item-content">
-                  <h4 className="mt-0 mb-8">Robust Workflow</h4>
+                  <h4 className="mt-0 mb-8">Reviews</h4>
                   <p className="m-0 text-sm">
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupidatat.
+                    The average review for our services is 4.5 / 5
                   </p>
                 </div>
               </div>
@@ -195,11 +190,9 @@ const FeaturesTiles = (inProps: SectionTilesProps) => {
                   </div>
                 </div>
                 <div className="features-tiles-item-content">
-                  <h4 className="mt-0 mb-8">Robust Workflow</h4>
+                  <h4 className="mt-0 mb-8">Do not worry</h4>
                   <p className="m-0 text-sm">
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupidatat.
+                    Using our service, we will not bother you over trifles
                   </p>
                 </div>
               </div>
@@ -211,4 +204,4 @@ const FeaturesTiles = (inProps: SectionTilesProps) => {
   );
 };
 
-export default FeaturesTiles;
+export default HomeFeatures;

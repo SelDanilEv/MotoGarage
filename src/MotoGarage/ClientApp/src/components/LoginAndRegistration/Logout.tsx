@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useContext, useEffect } from "react";
-import { CurrentUserContext } from "../GlobalState/NavMenu/CurrentUserStore";
+import { CurrentUserContext } from "../GlobalState/CurrentUser/CurrentUserStore";
 import { LoadingContext } from "../GlobalState/LoadingState/LoadingStore";
 import wrapAPICall from "../GlobalState/LoadingState/wrapAPICall";
 
@@ -33,7 +33,7 @@ const Logout = () => {
 
   useEffect(() => {
     logout();
-  }, [logout]);
+  }, []);
   return null;
 };
 
