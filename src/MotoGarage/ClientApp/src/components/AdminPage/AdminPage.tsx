@@ -190,8 +190,7 @@ const AdminPage = () => {
     <Grid container
       spacing={1}
       position='absolute'
-      top='100px'
-      style={{ minHeight: '100vh' }}>
+      top='100px'>
       <Grid xs={12}>
         <div>
           {

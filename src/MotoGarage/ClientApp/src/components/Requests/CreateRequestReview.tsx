@@ -1,5 +1,5 @@
 import * as React from "react";
-import ErrorResponse from "./../../Interfaces/ErrorResponse";
+import ErrorResponse from "../../Interfaces/ErrorResponse";
 import { useContext, useState } from "react";
 import { LoadingContext } from "../GlobalState/LoadingState/LoadingStore";
 import FormField from "../Fields/FormField";
@@ -18,8 +18,12 @@ const CreateRequestReview = (props: any) => {
       const data = new FormData(event.currentTarget);
 
       const requestData = {
-        Id: data.get("Title"),
-        Message: data.get("Message"),
+        Id: props.item.id,
+        Review: {
+          Id: props.item.id,
+          ReviewText: data.get("ReviewText"),
+          Rate: data.get("Rate"),
+        },
       };
 
       const response = await fetch("api/ServiceRequest/AddRequestReview", {
@@ -38,7 +42,6 @@ const CreateRequestReview = (props: any) => {
           break;
         case 400:
         default:
-
           let error: ErrorResponse = result;
           error.errors = new Map<string, Array<string>>(
             Object.entries(result.errors)
@@ -50,38 +53,36 @@ const CreateRequestReview = (props: any) => {
   return (
     <Box
       sx={{
-        my: 1,
-        mx: 4,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
+        my: 1, mx: 2, display: "flex",
+        flexDirection: "column", alignItems: "center",
+      }}>
       <Typography component="h1" variant="h5">
         Create new request
       </Typography>
       <Box component="form"
-        // noValidate 
         onSubmit={handleSubmit} sx={{ mt: 1 }}>
         <FormField
-          name="Title"
-          label="Title"
+          name="ReviewText"
+          label="Review text"
           margin="normal"
+          defaultValue= {props.item?.review? props.item.review.reviewText : ""}
           fullWidth
           required
           autoFocus
-          error={errorState.titleError}
+          error={errorState.reviewTextError}
         />
         <FormField
-          name="Message"
-          label="Message"
+          name="Rate"
+          type="number"
+          label="Rate (from 1 to 5)"
+          defaultValue= {props.item?.review? props.item.review.rate : 5}
+          InputProps={{ inputProps: 
+            { min: 1, max: 5,  } 
+          }}
           margin="normal"
           fullWidth
           required
-          multiline
-          rows={7}
-          maxRows={7}
-          error={errorState.messageError}
+          error={errorState.rateError}
         />
         <LockedButton
           type="submit"
@@ -92,7 +93,7 @@ const CreateRequestReview = (props: any) => {
             transform: 'translate(-50%, -50%)'
           }}
         >
-          Send review
+          Create review
         </LockedButton>
       </Box>
     </Box>

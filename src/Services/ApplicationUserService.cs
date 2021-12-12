@@ -8,20 +8,28 @@ using Infrastructure.Models.User;
 using System.Collections.Generic;
 using Infrastructure.Result;
 using AutoMapper;
+using System.Linq;
+using Microsoft.AspNetCore.Identity;
+using Infrastructure.Enums;
 
 namespace Services
 {
     public class ApplicationUserService : CommonRepositoryService<ApplicationUser>, IApplicationUserService
     {
         private readonly IMapper _mapper;
+        private readonly RoleManager<ApplicationRole> _roleManager;
 
-        public ApplicationUserService(IOptions<MongoDbOption> mongoOption, IMapper mapper) : base(mongoOption)
+        public ApplicationUserService(
+            IOptions<MongoDbOption> mongoOption,
+            RoleManager<ApplicationRole> roleManager,
+            IMapper mapper
+            ) : base(mongoOption)
         {
             _mapper = mapper;
+            _roleManager = roleManager;
         }
 
-        // Remove that method
-        public async Task<IResultWithData<List<UserModel>>> GetAllUserModels()
+        public async Task<IResultWithData<List<UserModel>>> GetAllEmployees()
         {
             var result = Result<List<UserModel>>.SuccessResult();
 
@@ -32,17 +40,11 @@ namespace Services
                 return Result<List<UserModel>>.ErrorResult().BuildMessage("Error while get all users");
             }
 
-            var userList = new List<UserModel>();
+            var employeeRole = await _roleManager.FindByNameAsync(Roles.Employee);
 
-            foreach (var user in getAllResult.GetData)
-            {
-                var model = _mapper.Map<UserModel>(user);
-                //model.Role = (await _accountManagerService.GetRoleByEmail(model.Email)).GetData;
+            var employeesList = getAllResult.GetData.Where(x => x.Roles.First() == employeeRole.Id).ToList();
 
-                userList.Add(model);
-            }
-
-            result.Data = userList;
+            result.Data = _mapper.Map<List<UserModel>>(employeesList);
 
             return result;
         }

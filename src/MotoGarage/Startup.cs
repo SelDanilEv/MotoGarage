@@ -27,8 +27,12 @@ namespace MotoGarage
 
         public void ConfigureServices(IServiceCollection services)
         {
+            #region register options
             var mongoDbSettings = Configuration.GetSection(nameof(MongoDbOption));
             services.Configure<MongoDbOption>(mongoDbSettings);
+            var emailSMTPSettings = Configuration.GetSection(nameof(EmailSMTPOption));
+            services.Configure<EmailSMTPOption>(emailSMTPSettings);
+            #endregion
 
             var mongoOption = mongoDbSettings.Get<MongoDbOption>();
 
@@ -68,7 +72,8 @@ namespace MotoGarage
             services.AddSingleton<INavMenuService, NavMenuService>();
 
             services.AddDistributedMemoryCache();
-            services.AddSession(options => {
+            services.AddSession(options =>
+            {
                 options.IdleTimeout = TimeSpan.FromMinutes(20);
             });
 
@@ -117,7 +122,7 @@ namespace MotoGarage
 
             app.UseSpa(spa =>
             {
-                spa.Options.SourcePath = Path.Join(env.ContentRootPath, "ClientApp");;
+                spa.Options.SourcePath = Path.Join(env.ContentRootPath, "ClientApp"); ;
 
                 if (env.IsDevelopment())
                 {

@@ -6,11 +6,11 @@ import { SectionSplitInitProps, } from "../interfaces/SectionInitProps";
 import SectionSplitProps from "../interfaces/SectionSplitProps";
 import SectionHeader from "./partials/SectionHeader";
 
-import features_split_image_01 from "./../../../assets/images/features-split-image-01.png";
-import features_split_image_02 from "./../../../assets/images/features-split-image-02.png";
-import features_split_image_03 from "./../../../assets/images/features-split-image-03.png";
+import features_split_image_01 from "./../../../assets/images/pict1.jpg";
+import features_split_image_02 from "./../../../assets/images/pict2.jpg";
+import features_split_image_03 from "./../../../assets/images/pict3.jpg";
 
-const FeaturesSplit = (inProps: SectionSplitProps) => {
+const HomeWorkflow = (inProps: SectionSplitProps) => {
   const {
     className,
     topOuterDivider,
@@ -51,9 +51,9 @@ const FeaturesSplit = (inProps: SectionSplitProps) => {
   );
 
   const sectionHeader = {
-    title: "Workflow that just works",
+    title: "Our workflow",
     paragraph:
-      "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum — semper quis lectus nulla at volutpat diam ut venenatis.",
+      "All ingenious is simple.",
   };
 
   return (
@@ -68,14 +68,12 @@ const FeaturesSplit = (inProps: SectionSplitProps) => {
                 data-reveal-container=".split-item"
               >
                 <div className="text-xxs text-color-primary fw-600 tt-u mb-8">
-                  Lightning fast workflow
+                  Step 1
                 </div>
-                <h3 className="mt-0 mb-12">Data-driven insights</h3>
+                <h3 className="mt-0 mb-12">Create a request</h3>
                 <p className="m-0">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua
-                  — Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat.
+                  You create a request, indicate in it the type of service that you would like to receive.
+                  We will contact you and make an appointment
                 </p>
               </div>
               <div
@@ -101,14 +99,12 @@ const FeaturesSplit = (inProps: SectionSplitProps) => {
                 data-reveal-container=".split-item"
               >
                 <div className="text-xxs text-color-primary fw-600 tt-u mb-8">
-                  Lightning fast workflow
+                  Step 2
                 </div>
-                <h3 className="mt-0 mb-12">Data-driven insights</h3>
+                <h3 className="mt-0 mb-12">Executing a request</h3>
                 <p className="m-0">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua
-                  — Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat.
+                The request is considered completed, the service is considered completed
+                 or rejected, you have the opportunity to leave a review
                 </p>
               </div>
               <div
@@ -134,9 +130,9 @@ const FeaturesSplit = (inProps: SectionSplitProps) => {
                 data-reveal-container=".split-item"
               >
                 <div className="text-xxs text-color-primary fw-600 tt-u mb-8">
-                  Lightning fast workflow
+                  Step 3
                 </div>
-                <h3 className="mt-0 mb-12">Data-driven insights</h3>
+                <h3 className="mt-0 mb-12">You get everything you want</h3>
                 <p className="m-0">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                   do eiusmod tempor incididunt ut labore et dolore magna aliqua
@@ -167,4 +163,4 @@ const FeaturesSplit = (inProps: SectionSplitProps) => {
   );
 };
 
-export default FeaturesSplit;
+export default HomeWorkflow;

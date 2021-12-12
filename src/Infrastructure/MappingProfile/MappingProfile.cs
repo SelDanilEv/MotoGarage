@@ -57,6 +57,15 @@ namespace Infrastructure.MappingProfile
 
             CreateMap<UpdateServiceRequestDto, ServiceRequest>();
             CreateMap<ReviewDto, Review>();
+            CreateMap<Review, ReviewDto>();
+
+            CreateMap<ServiceRequest, ReviewDisplayDto>().
+                ForMember(dto => dto.ClientName,
+                    opt => opt.MapFrom(request => request.Reporter.Name)).
+                ForMember(dto => dto.Rate,
+                    opt => opt.MapFrom(request => request.Review.Rate)).
+                ForMember(dto => dto.ReviewText,
+                    opt => opt.MapFrom(request => request.Review.ReviewText));
 
             #endregion
 

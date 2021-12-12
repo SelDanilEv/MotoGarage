@@ -95,10 +95,6 @@ tables table {
     width: 100%;
 }
 
-tr {
-    border-bottom: 1px solid color-border(divider);
-}
-
 th {
     @include font-weight(strong);
     text-align: left;
@@ -117,8 +113,5 @@ th {
 .invert-color {
     hr {
         @include divider(false, inverse);
-    }
-    tr {
-        border-bottom: 1px solid color-border(divider-inverse);
     }
 }

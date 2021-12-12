@@ -358,10 +358,6 @@ tables table {
     width: 100%;
 }
 
-tr {
-    border-bottom: 1px solid #25282c;
-}
-
 th {
     font-weight: 700;
     text-align: left;
@@ -371,10 +367,6 @@ th {
     display: block;
     height: 1px;
     background: #eceded;
-}
-
-.invert-color tr {
-    border-bottom: 1px solid #eceded;
 }
 
 html {

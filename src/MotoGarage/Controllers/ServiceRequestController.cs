@@ -119,6 +119,22 @@ namespace MotoGarage.Controllers
             return Json(updateRequestResult);
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("GetReviews")]
+        public async Task<IActionResult> GetReviews()
+        {
+            var getAllReviewsResult = await _serviceRequestService.GetAllReviews();
+
+            if (!getAllReviewsResult.IsSuccess)
+            {
+                Response.StatusCode = getAllReviewsResult.GetErrorResponse.Status;
+                return Json(getAllReviewsResult?.Message ?? "Review request failed");
+            }
+
+            return Json(getAllReviewsResult.GetData);
+        }
+
         [HttpPost]
         [AuthorizeEmployee]
         [Route("ChangeStatus")]

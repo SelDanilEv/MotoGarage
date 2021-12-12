@@ -9,7 +9,7 @@ import {
 import React, { useState, useEffect, useContext } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import  MenuItem  from "../Interfaces/MenuItem";
-import { CurrentUserContext } from "./GlobalState/NavMenu/CurrentUserStore";
+import { CurrentUserContext } from "./GlobalState/CurrentUser/CurrentUserStore";
 import wrapAPICall from "./GlobalState/LoadingState/wrapAPICall";
 import { LoadingContext } from "./GlobalState/LoadingState/LoadingStore";
 
@@ -51,7 +51,7 @@ const NavMenu = () => {
     menuItems: Array<MenuItem>(),
   });
 
-  const [navManuState, setNavManuState]: any = useContext(CurrentUserContext);
+  const [currentUserState, setCurrentUserState]: any = useContext(CurrentUserContext);
   const [loadingState, setLoadingState]: any = useContext(LoadingContext);
 
   useEffect(() => {
@@ -75,14 +75,14 @@ const NavMenu = () => {
           }
         );
     }, setLoadingState);
-  }, [navManuState]);
+  }, [currentUserState]);
 
   const displayDesktop = () => {
     return (
       <Toolbar className={toolbar}>
         {femmecubatorLogo}
-        {console.log(navManuState.CurrentUser)}
-        {navManuState.CurrentUser ? navManuState.CurrentUser.name : ""}
+        {currentUserState.CurrentUser ? 
+        `${currentUserState.CurrentUser.name}(${currentUserState.CurrentUser.email})` : ""}
         <div>{getMenuButtons()}</div>
       </Toolbar>
     );
@@ -95,15 +95,11 @@ const NavMenu = () => {
   );
 
   const getMenuButtons = () => {
-    console.log("GetMenuItem");
     if (resultState.error) {
       return <div>Please try reload the page</div>;
     } else if (resultState.loading) {
       return <div>Loading ...</div>;
     } else {
-      console.log("Try get menu");
-      console.log(resultState.menuItems);
-
       let menuItems: Array<MenuItem> = filterMenuItems(resultState.menuItems);
 
       return menuItems.map(({ displayName, href, id }) => {
@@ -128,7 +124,7 @@ const NavMenu = () => {
     let filteredMenuItems: Array<MenuItem> = [];
 
     if (menuItems) {
-      if (navManuState.CurrentUser) {
+      if (currentUserState.CurrentUser) {
         filteredMenuItems = menuItems.filter(
           (item) => item.displayName.toUpperCase() != "LOGIN"
         );

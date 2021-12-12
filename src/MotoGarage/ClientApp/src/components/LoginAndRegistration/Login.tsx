@@ -2,7 +2,7 @@ import * as React from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import ErrorResponse from "./../../Interfaces/ErrorResponse";
 import { useContext, useState } from "react";
-import { CurrentUserContext } from "../GlobalState/NavMenu/CurrentUserStore";
+import { CurrentUserContext } from "../GlobalState/CurrentUser/CurrentUserStore";
 import { LoadingContext } from "../GlobalState/LoadingState/LoadingStore";
 import FormField from "../Fields/FormField";
 import wrapAPICall from "../GlobalState/LoadingState/wrapAPICall";
