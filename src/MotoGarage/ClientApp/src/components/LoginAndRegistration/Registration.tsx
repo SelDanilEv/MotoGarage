@@ -37,7 +37,6 @@ const Registration = () => {
         Password: data.get("password"),
       };
 
-      console.log(requestData);
 
       const response = await fetch("api/AccountManager/CreateUser", {
         method: "POST",
@@ -48,28 +47,20 @@ const Registration = () => {
       });
 
       const result = await response.json();
-      console.log(result);
 
       switch (response.status) {
         case 200:
-          console.log("History push");
           navigate("/Account/Login/");
           break;
         case 400:
-          console.log("Validation error");
         default:
-          console.log("Default");
 
           let error: ErrorResponse = result;
           error.errors = new Map<string, Array<string>>(
             Object.entries(result.errors)
           );
 
-          console.log(error);
-
           validateFields(error);
-
-          console.log(getState);
       }
     }, setLoadingState);
   };

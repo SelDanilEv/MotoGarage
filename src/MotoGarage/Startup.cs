@@ -38,7 +38,8 @@ namespace MotoGarage
 
             services.AddIdentity<ApplicationUser, ApplicationRole>()
                             .AddMongoDbStores<ApplicationUser, ApplicationRole, Guid>(
-                                mongoOption.ConnectionString, mongoOption.AppName);
+                                mongoOption.ConnectionString, mongoOption.AppName)
+                            .AddTokenProvider<DataProtectorTokenProvider<ApplicationUser>>(TokenOptions.DefaultProvider);
 
             services.Configure<IdentityOptions>(opts =>
             {
@@ -70,6 +71,7 @@ namespace MotoGarage
             services.AddTransient<IServiceRequestService, ServiceRequestService>();
             services.AddTransient<IApplicationUserService, ApplicationUserService>();
             services.AddSingleton<INavMenuService, NavMenuService>();
+            services.AddSingleton<IEmailService, EmailService>();
 
             services.AddDistributedMemoryCache();
             services.AddSession(options =>

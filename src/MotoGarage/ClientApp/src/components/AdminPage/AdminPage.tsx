@@ -91,17 +91,13 @@ const AdminPage = () => {
       });
 
       const result = await response.json();
-      console.log(result);
 
       switch (response.status) {
         case 200:
           setData(result);
-          console.log("Users loaded");
           break;
         case 400:
-          console.log("Validation error");
         default:
-          console.log("Default");
           let errorList: string[] = [];
           errorList.push("Server error!!!")
           setErrorMessages(errorList)
@@ -133,7 +129,6 @@ const AdminPage = () => {
         });
 
         const result = await response.json();
-        console.log(result);
 
         switch (response.status) {
           case 200:
@@ -144,10 +139,8 @@ const AdminPage = () => {
             resolve()
             setIserror(false)
             setErrorMessages([])
-            console.log("Users loaded");
             break;
           case 400:
-            console.log("Validation error");
           default:
             setErrorMessages(["Update failed! Server error"])
             setIserror(true)
@@ -177,7 +170,6 @@ const AdminPage = () => {
           resolve()
           break;
         case 400:
-          console.log("Validation error");
         default:
           setErrorMessages(["Delete failed! Server error"])
           setIserror(true)

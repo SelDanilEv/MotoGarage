@@ -17,6 +17,7 @@
 .popup_open {
     position: absolute;
     width: fit-content;
+    max-width: 75%;
     border-radius: 15px;
     background: rgba(18, 18, 22, 0.922);
 }

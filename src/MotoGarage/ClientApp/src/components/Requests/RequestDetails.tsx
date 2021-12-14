@@ -25,7 +25,6 @@ const RequestDetails = (props: any) => {
       });
 
       const result = await response.json();
-      console.log(result);
 
       switch (response.status) {
         case 200:
@@ -69,7 +68,6 @@ const RequestDetails = (props: any) => {
             data.get("assignee"),
       };
 
-      console.log(requestData)
 
       const response = await fetch("api/ServiceRequest/UpdateServiceRequest", {
         method: "POST",

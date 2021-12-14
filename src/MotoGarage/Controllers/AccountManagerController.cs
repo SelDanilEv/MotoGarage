@@ -70,7 +70,7 @@ namespace MotoGarage.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("CreateUser")]
-        public async Task<IActionResult> CreateUser(LoginUserDto user)
+        public async Task<IActionResult> CreateUser(CreateUserDto user)
         {
             var result = await _accountManagerService.CreateUser(user);
 

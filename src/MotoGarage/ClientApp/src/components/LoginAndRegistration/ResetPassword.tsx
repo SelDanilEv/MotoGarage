@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
-import ErrorResponse from "./../../Interfaces/ErrorResponse";
+import { Link as RouterLink, useNavigate, useSearchParams } from "react-router-dom";
+import ErrorResponse from "../../Interfaces/ErrorResponse";
 import { useContext, useState } from "react";
 import { CurrentUserContext } from "../GlobalState/CurrentUser/CurrentUserStore";
 import { LoadingContext } from "../GlobalState/LoadingState/LoadingStore";
@@ -8,30 +8,45 @@ import FormField from "../Fields/FormField";
 import wrapAPICall from "../GlobalState/LoadingState/wrapAPICall";
 import LockedButton from "../Fields/LockedButton";
 import { Box, Grid, Typography } from "@mui/material";
-// import { Box, Grid, Typography } from "@material-ui/core";
+import ShowResetMessageSend from "../Popup/Templates/Models/ShowResetMessageSend";
+import PasswordResetSentByEmail from "../Popup/Templates/PasswordResetSentByEmail";
 
-const Login = () => {
+const ResetPassword = () => {
   const navigate = useNavigate();
 
-  const [getState, setState] = useState({
-    emailError: "",
+  const [errorState, setErrorState] = useState({
     passwordError: "",
+    passwordConfirmError: "",
   });
 
-  const [currentUserState, setCurrentUserState]: any = useContext(CurrentUserContext);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [showEmailSendPopup, setShowEmailSendPopup] = useState(false);
   const [loadingState, setLoadingState]: any = useContext(LoadingContext);
+
+  const replaceAll = (source: string, str1: string, str2: string, ignore: any) => {
+    return source.replace(new RegExp(str1.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g, "\\$&"), (ignore ? "gi" : "g")), (typeof (str2) == "string") ? str2.replace(/\$/g, "$$$$") : str2);
+  }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     wrapAPICall(async () => {
       event.preventDefault();
       const data = new FormData(event.currentTarget);
 
+      if (data.get("password") !== data.get("passwordConfirm")) {
+        setErrorState(() => ({
+          passwordError: "",
+          passwordConfirmError: "Password mismatch",
+        }));
+        return;
+      }
+
       const requestData = {
-        Email: data.get("email"),
+        Code: replaceAll(searchParams.get("code") || "", " ", "+", ""),
+        Email: searchParams.get("userEmail"),
         Password: data.get("password"),
       };
 
-      const response = await fetch("api/Account/Login", {
+      const response = await fetch("api/Account/ResetPassword", {
         method: "POST",
         body: JSON.stringify(requestData),
         headers: {
@@ -39,19 +54,17 @@ const Login = () => {
         },
       });
 
-      const result = await response.json();
-
       switch (response.status) {
         case 200:
-          setCurrentUserState({ type: "SET_USER", payload: result });
-
-          navigate("/");
+          navigate("/Account/Login");
           break;
         case 400:
         default:
-          setState(() => ({
-            emailError: "",
+          const result = await response.json();
+
+          setErrorState(() => ({
             passwordError: "",
+            passwordConfirmError: "",
           }));
 
           let error: ErrorResponse = result;
@@ -65,7 +78,6 @@ const Login = () => {
   };
 
   const validateFields = (error: ErrorResponse) => {
-
     error.errors.forEach((value: string[], key: string) => {
       let field = key;
       let errorArray = value;
@@ -74,7 +86,7 @@ const Login = () => {
 
       if (errorMessage) {
         field = field.toLowerCase();
-        setState((prevState) => ({
+        setErrorState((prevState) => ({
           ...prevState,
           [field + "Error"]: errorMessage,
         }));
@@ -85,7 +97,7 @@ const Login = () => {
   return (
     <Box
       sx={{
-        my: 15,
+        my: 16,
         mx: 4,
         display: "flex",
         flexDirection: "column",
@@ -93,31 +105,26 @@ const Login = () => {
       }}
     >
       <Typography component="h1" variant="h5">
-        Sign in
+        Reset password
       </Typography>
-      <Box component="form"
-        // noValidate 
-        onSubmit={handleSubmit} sx={{ mt: 1 }}>
-        <FormField
-          name="email"
-          type="email"
-          autoComplete="email"
-          label="Email Address"
-          margin="normal"
-          required
-          autoFocus
-          fullWidth
-          error={getState.emailError}
-        />
+      <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
         <FormField
           name="password"
           type="password"
-          autoComplete="current-password"
           label="Password"
           margin="normal"
           required
           fullWidth
-          error={getState.passwordError}
+          error={errorState.passwordError}
+        />
+        <FormField
+          name="passwordConfirm"
+          type="password"
+          label="Confirm password"
+          margin="normal"
+          required
+          fullWidth
+          error={errorState.passwordConfirmError}
         />
         <LockedButton
           type="submit"
@@ -126,16 +133,11 @@ const Login = () => {
           sx={{ mt: 3, mb: 2 }}
           isLoading={loadingState.Loading}
         >
-          Sign In
+          Save new password
         </LockedButton>
         <Grid container>
           <Grid item xs>
-            <RouterLink to="/Account/ForgotPassword">Forgot password?</RouterLink>
-          </Grid>
-          <Grid item xs>
-            <RouterLink to="/Account/Registration">
-              Don't have an account?
-            </RouterLink>
+            <RouterLink to="/Account/Login">Back to login page</RouterLink>
           </Grid>
         </Grid>
       </Box>
@@ -143,4 +145,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ResetPassword;
