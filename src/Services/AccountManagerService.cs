@@ -149,6 +149,7 @@ namespace Services
             if (!string.IsNullOrWhiteSpace(updateUserInfo.OldPassword) && !string.IsNullOrWhiteSpace(updateUserInfo.NewPassword))
             {
                 var updatePasswordModel = _mapper.Map<UpdatePassword>(updateUserInfo);
+                updatePasswordModel.User = appUser;
 
                 var updateNameResult = await UpdatePassword(updatePasswordModel);
 
