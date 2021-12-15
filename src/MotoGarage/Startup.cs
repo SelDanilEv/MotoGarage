@@ -66,10 +66,11 @@ namespace MotoGarage
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
 
-            services.AddTransient<IAccountManagerService, AccountManagerService>();
-            services.AddTransient<IAccountAuthService, AccountAuthService>();
-            services.AddTransient<IServiceRequestService, ServiceRequestService>();
             services.AddTransient<IApplicationUserService, ApplicationUserService>();
+            services.AddScoped<IAccountManagerService, AccountManagerService>();
+            services.AddScoped<IAccountAuthService, AccountAuthService>();
+            services.AddScoped<IServiceRequestService, ServiceRequestService>();
+
             services.AddSingleton<INavMenuService, NavMenuService>();
             services.AddSingleton<IEmailService, EmailService>();
 

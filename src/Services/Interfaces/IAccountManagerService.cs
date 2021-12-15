@@ -2,6 +2,7 @@
 using Infrastructure.Models.CommonModels;
 using Infrastructure.Models.Identity;
 using Infrastructure.Models.ResetPassword;
+using Infrastructure.Models.User;
 using Infrastructure.Result.Interfaces;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace Services.Interfaces
         Task<IResultWithData<CurrentUser>> GetCurrentUser(ApplicationUser User);
 
         Task<IResult> CreateUser(CreateUserDto user);
+        Task<IResult> UpdateUserInfo(UpdateUserInfo updateUserInfo);
 
         Task<IResult> SendResetPasswordMessage(ForgotPassword model, string baseUrl);
         Task<IResult> ResetPassword(ResetPassword model);

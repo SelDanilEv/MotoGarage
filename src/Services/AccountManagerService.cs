@@ -11,6 +11,7 @@ using Infrastructure.Enums;
 using Infrastructure.Models.CommonModels;
 using AutoMapper;
 using Infrastructure.Models.ResetPassword;
+using Infrastructure.Models.User;
 
 namespace Services
 {
@@ -18,17 +19,20 @@ namespace Services
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly IApplicationUserService _applicationUserService;
         private readonly IEmailService _emailService;
         private readonly IMapper _mapper;
 
         public AccountManagerService(
             UserManager<ApplicationUser> userManager,
             RoleManager<ApplicationRole> roleManager,
+            IApplicationUserService applicationUserService,
             IEmailService emailService,
             IMapper mapper)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _applicationUserService = applicationUserService;
             _emailService = emailService;
             _mapper = mapper;
         }
@@ -119,6 +123,41 @@ namespace Services
             await GrantRoleByEmail(user.Email, "Client");
 
             result.BuildMessage("User created Successfully");
+
+            return result;
+        }
+
+        public async Task<IResult> UpdateUserInfo(UpdateUserInfo updateUserInfo)
+        {
+            var result = Result.SuccessResult();
+
+            var appUser = (await GetUserByEmail(updateUserInfo.Email)).GetData;
+
+            if (!string.IsNullOrWhiteSpace(updateUserInfo.Name))
+            {
+                appUser.Name = updateUserInfo.Name;
+
+                var updateNameResult = await _applicationUserService.UpdateItem(appUser);
+
+                if (!updateNameResult.IsSuccess)
+                {
+                    result.Status = ResultStatus.Warning;
+                    result.AddError("Name", "Name has not been changed");
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(updateUserInfo.OldPassword) && !string.IsNullOrWhiteSpace(updateUserInfo.NewPassword))
+            {
+                var updatePasswordModel = _mapper.Map<UpdatePassword>(updateUserInfo);
+
+                var updateNameResult = await UpdatePassword(updatePasswordModel);
+
+                if (!updateNameResult.IsSuccess)
+                {
+                    result.Status = ResultStatus.Error;
+                    result.AddError("Password", "Password has not been changed");
+                }
+            }
 
             return result;
         }
@@ -390,18 +429,16 @@ namespace Services
         {
             try
             {
-                var user = await _userManager.FindByEmailAsync(model.Email);
-
                 if (_userManager.PasswordHasher.
-                    VerifyHashedPassword(user, user.PasswordHash, model.OldPassword) == PasswordVerificationResult.Failed)
+                    VerifyHashedPassword(model.User, model.User.PasswordHash, model.OldPassword) == PasswordVerificationResult.Failed)
                 {
                     return Result.ErrorResult().BuildMessage("Incorrect old password").
                         AddError("OldPassword", "Old password is not correct");
                 }
 
-                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var token = await _userManager.GeneratePasswordResetTokenAsync(model.User);
 
-                var result = await _userManager.ResetPasswordAsync(user, token, model.NewPassword);
+                var result = await _userManager.ResetPasswordAsync(model.User, token, model.NewPassword);
 
                 if (!result.Succeeded)
                 {

@@ -20,7 +20,6 @@ const ResetPassword = () => {
   });
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const [showEmailSendPopup, setShowEmailSendPopup] = useState(false);
   const [loadingState, setLoadingState]: any = useContext(LoadingContext);
 
   const replaceAll = (source: string, str1: string, str2: string, ignore: any) => {

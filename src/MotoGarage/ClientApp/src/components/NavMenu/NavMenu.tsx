@@ -11,6 +11,7 @@ import MenuItem from "../../Interfaces/MenuItem";
 import { CurrentUserContext } from "../GlobalState/CurrentUser/CurrentUserStore";
 import wrapAPICall from "../GlobalState/LoadingState/wrapAPICall";
 import { LoadingContext } from "../GlobalState/LoadingState/LoadingStore";
+import CurrentUserInfo from "./CurrentUserInfo";
 
 const useStyles = makeStyles((theme: any) => ({
   header: {
@@ -80,8 +81,7 @@ const NavMenu = () => {
     return (
       <Toolbar className={toolbar}>
         {femmecubatorLogo}
-        {currentUserState.CurrentUser ?
-          `${currentUserState.CurrentUser.name}(${currentUserState.CurrentUser.email})` : ""}
+        <CurrentUserInfo />
         <div>{getMenuButtons()}</div>
       </Toolbar>
     );

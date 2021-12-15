@@ -12,13 +12,25 @@ import AdminPage from "./AdminPage/AdminPage";
 import RequestsPage from "./Requests/RequestsPage";
 import ForgotPassword from "./LoginAndRegistration/ForgotPassword";
 import ResetPassword from "./LoginAndRegistration/ResetPassword";
+import { useContext, useEffect } from "react";
+import { CurrentUserContext, CurrentUserStorageName } from "../components/GlobalState/CurrentUser/CurrentUserStore";
 
 const Layout = () => {
+  const [currentUserState, setCurrentUserState]: any = useContext(CurrentUserContext);
+
+  useEffect(() => {
+    let userFromStorage = localStorage.getItem(CurrentUserStorageName);
+    if (userFromStorage != null) {
+      let currentUser = JSON.parse(userFromStorage);
+      setCurrentUserState({ type: "SET_USER", payload: currentUser });
+    }
+  }, []);
+
   return (
     <>
+      <LayoutDefault>
       <NavMenu />
       <LinearIndeterminate />
-      <LayoutDefault>
         <Routes>
           <Route path={"/"} element={<Home />} />
           <Route path={"/Admin/ManageUsers"} element={<AdminPage />} />

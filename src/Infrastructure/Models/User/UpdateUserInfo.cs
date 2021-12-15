@@ -1,13 +1,12 @@
 ﻿using Infrastructure.Models.Identity;
 
-namespace Infrastructure.Models.ResetPassword
+namespace Infrastructure.Models.User
 {
-    public class UpdatePassword
+    public class UpdateUserInfo
     {
-        public ApplicationUser User { get; set; }
-
+        public string Email { get; set; }
+        public string Name { get; set; }
         public string OldPassword { get; set; }
-
         public string NewPassword { get; set; }
     }
 }

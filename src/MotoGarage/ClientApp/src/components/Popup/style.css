@@ -22,6 +22,10 @@
     background: rgba(18, 18, 22, 0.922);
 }
 
+.popup .popup_open input {
+    color: #eceded;
+}
+
 .popup .popup_open .close_popup_button {
     position: absolute;
     right: 0;

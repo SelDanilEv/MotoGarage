@@ -23,6 +23,7 @@ namespace Infrastructure.MappingProfile
             CreateMap<ApplicationUser, CurrentUser>();
             CreateMap<CurrentUser, UserModel>();
             CreateMap<ApplicationUser, UserModel>();
+            CreateMap<UpdateUserInfoDto, UpdateUserInfo>();
 
             CreateMap<LoginUserDto, ApplicationUser>().
                 ForMember(appUser => appUser.UserName,
