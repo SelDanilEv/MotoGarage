@@ -93,7 +93,6 @@ const RequestsPage = () => {
       });
 
       const result = await response.json();
-      console.log(result);
 
       switch (response.status) {
         case 200:
@@ -131,7 +130,6 @@ const RequestsPage = () => {
           break;
 
         case 400:
-          console.log("Validation error");
         default:
           setErrorMessages(["Delete failed! Server error"])
           setIserror(true)
@@ -203,7 +201,6 @@ const RequestsPage = () => {
                   });
 
                   const result = await response.json();
-                  console.log(result);
 
                   switch (response.status) {
                     case 200:
@@ -215,10 +212,8 @@ const RequestsPage = () => {
                         return row
                       }))
                       resolve()
-                      console.log("Users loaded");
                       break;
                     case 400:
-                      console.log("Validation error");
                     default:
                   }
                 }, setLoadingState);
@@ -280,7 +275,6 @@ const RequestsPage = () => {
                   });
 
                   const result = await response.json();
-                  console.log(result);
 
                   switch (response.status) {
                     case 200:
@@ -292,10 +286,8 @@ const RequestsPage = () => {
                         return row
                       }))
                       resolve()
-                      console.log("Users loaded");
                       break;
                     case 400:
-                      console.log("Validation error");
                     default:
                   }
                 }, setLoadingState);

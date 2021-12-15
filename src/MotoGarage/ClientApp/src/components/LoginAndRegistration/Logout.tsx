@@ -14,19 +14,14 @@ const Logout = () => {
     wrapAPICall(async () => {
       const response = await fetch("api/Account/Logout");
 
-      console.log(response);
-
       switch (response.status) {
         case 200:
           setNavMenuState({ type: "CLEAN_USER", payload: undefined });
 
-          console.log("History push");
           navigate("/");
           break;
         case 400:
-          console.log("Validation error");
         default:
-          console.log("Default");
       }
     }, setLoadingState);
   };

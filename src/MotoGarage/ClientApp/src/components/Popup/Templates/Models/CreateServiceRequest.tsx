@@ -1,15 +1,13 @@
 import * as React from "react"
-import ErrorResponse from "../../Interfaces/ErrorResponse"
+import ErrorResponse from "../../../../Interfaces/ErrorResponse"
 import { useContext, useState } from "react"
-import { LoadingContext } from "../GlobalState/LoadingState/LoadingStore"
-import FormField from "../Fields/FormField"
-import wrapAPICall from "../GlobalState/LoadingState/wrapAPICall"
-import LockedButton from "../Fields/LockedButton"
+import { LoadingContext } from "../../../GlobalState/LoadingState/LoadingStore"
+import FormField from "../../../Fields/FormField"
+import wrapAPICall from "../../../GlobalState/LoadingState/wrapAPICall"
+import LockedButton from "../../../Fields/LockedButton"
 import { Box, Typography } from "@mui/material"
 
 const CreateServiceRequest = (props: any) => {
-  console.log("CreateServiceRequest");
-
   const [loadingState, setLoadingState]: any = useContext(LoadingContext)
   const [errorState, setErrorState]: any = useState({})
 
@@ -18,20 +16,16 @@ const CreateServiceRequest = (props: any) => {
       event.preventDefault()
       const data = new FormData(event.currentTarget)
       const requestData = { Title: data.get("Title"), Message: data.get("Message"), }
-      console.log(requestData)
       const response = await fetch("api/ServiceRequest/CreateServiceRequest", { method: "POST", body: JSON.stringify(requestData), headers: { "Content-Type": "application/json", }, })
       const result = await response.json()
-      console.log(result)
       switch (response.status) {
         case 200:
           props.setShowPopup(false)
           break
-        case 400: console.log("Validation error")
-        default: console.log("Default")
+        case 400: 
+        default:
           let error: ErrorResponse = result
           error.errors = new Map<string, Array<string>>(Object.entries(result.errors))
-          console.log(error)
-
       }
     }, setLoadingState)
   }

@@ -1,18 +1,17 @@
 import React from 'react';
-import CreateRequestReview from './Models/CreateRequestReview';
+import AccountInfoPage from './Models/AccountInfoPage';
 import Popup from '../Popup';
 
-const RequestReviewPopup = (props: any) => {
+const UpdateUserInfoPopup = (props: any) => {
     return (
         <Popup
             setShowPopup={props.setShowPopup}
             data={
-                <CreateRequestReview
+                <AccountInfoPage
                     setShowPopup={props.setShowPopup}
-                    item={props.item}
                 />}
         />
     );
 }
 
-export default RequestReviewPopup;
+export default UpdateUserInfoPopup;

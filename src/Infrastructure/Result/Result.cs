@@ -41,7 +41,7 @@ namespace Infrastructure.Result
         public T Data { private get; set; }
         public T GetData => Data;
 
-        public bool IsSuccess => Status == ResultStatus.Success;
+        public bool IsSuccess => Status != ResultStatus.Error;
 
         public static Result<T> SuccessResult() => new Result<T>() { Status = ResultStatus.Success };
         public static Result<T> WarningResult() => new Result<T>() { Status = ResultStatus.Warning };

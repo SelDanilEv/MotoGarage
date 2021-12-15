@@ -6,8 +6,6 @@ import './style.css';
 
 
 const Popup = (props: PopupProps) => {
-    console.log("popup");
-
     return (
         <div className='popup'>
             <div className='popup_open'>

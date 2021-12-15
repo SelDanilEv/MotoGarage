@@ -1,13 +1,13 @@
 import React from 'react';
-import CreateRequestReview from './Models/CreateRequestReview';
 import Popup from '../Popup';
+import ShowResetMessageSend from './Models/ShowResetMessageSend';
 
-const RequestReviewPopup = (props: any) => {
+const PasswordResetSentByEmail = (props: any) => {
     return (
         <Popup
             setShowPopup={props.setShowPopup}
             data={
-                <CreateRequestReview
+                <ShowResetMessageSend
                     setShowPopup={props.setShowPopup}
                     item={props.item}
                 />}
@@ -15,4 +15,4 @@ const RequestReviewPopup = (props: any) => {
     );
 }
 
-export default RequestReviewPopup;
+export default PasswordResetSentByEmail;

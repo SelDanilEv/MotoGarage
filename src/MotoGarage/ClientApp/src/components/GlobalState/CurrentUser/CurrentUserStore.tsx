@@ -14,5 +14,7 @@ const CurrentUserStore = ({ children }: any) => {
   );
 };
 
+export const CurrentUserStorageName = 'CurrentUser';
 export const CurrentUserContext = createContext(initialState);
 export default CurrentUserStore;
+

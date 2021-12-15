@@ -25,7 +25,6 @@ const RequestDetails = (props: any) => {
       });
 
       const result = await response.json();
-      console.log(result);
 
       switch (response.status) {
         case 200:
@@ -60,7 +59,7 @@ const RequestDetails = (props: any) => {
         Message: data.get("Message"),
         Status: +props.item.status,
         Review: props.item.review,
-        ReporterId: props.item.reporter.id,
+        ReporterId: props.item.reporter?.id,
         AssigneeId:
           currentUserState.CurrentUser?.role == 'Client' ?
             (props.item.assignee ?
@@ -69,7 +68,6 @@ const RequestDetails = (props: any) => {
             data.get("assignee"),
       };
 
-      console.log(requestData)
 
       const response = await fetch("api/ServiceRequest/UpdateServiceRequest", {
         method: "POST",
@@ -117,7 +115,7 @@ const RequestDetails = (props: any) => {
             label="Message"
             margin="normal"
             fullWidth
-            defaultValue={`${props.item.reporter.name}(${props.item.reporter.email})`}
+            defaultValue={`${props.item.reporter?.name}(${props.item.reporter?.email})`}
             disabled
             error={errorState.messageError}
           />
@@ -172,11 +170,11 @@ const RequestDetails = (props: any) => {
             error={errorState.messageError}
           />
           <FormField
-            name="Message"
-            label="Message"
+            name="reporter"
+            label="Reporter"
             margin="normal"
             fullWidth
-            defaultValue={`${props.item.reporter.name}(${props.item.reporter.email})`}
+            defaultValue={`${props.item.reporter?.name}(${props.item.reporter?.email})`}
             disabled
             error={errorState.messageError}
           />
@@ -185,7 +183,7 @@ const RequestDetails = (props: any) => {
             label="Assignee"
             margin="normal"
             fullWidth
-            defaultValue={`${props.item.assignee.name}(${props.item.assignee.email})`}
+            defaultValue={`${props.item.assignee?.name}(${props.item.assignee?.email})`}
             disabled
             error={errorState.messageError}
           />

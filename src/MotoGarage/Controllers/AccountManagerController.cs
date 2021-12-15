@@ -3,7 +3,10 @@ using Infrastructure.Attributes;
 using Infrastructure.Dto.User;
 using Infrastructure.Models.CommonModels;
 using Infrastructure.Models.Identity;
+using Infrastructure.Models.ResetPassword;
 using Infrastructure.Models.User;
+using Infrastructure.Result;
+using Infrastructure.Result.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
@@ -13,7 +16,6 @@ using System.Threading.Tasks;
 
 namespace MotoGarage.Controllers
 {
-    [AuthorizeAdmin]
     [Route("api/AccountManager")]
     public class AccountManagerController : BaseController
     {
@@ -28,6 +30,7 @@ namespace MotoGarage.Controllers
         }
 
         [HttpGet]
+        [AuthorizeAdmin]
         [Route("GetAllUsers")]
         public async Task<IActionResult> GetAllUsers()
         {
@@ -70,7 +73,7 @@ namespace MotoGarage.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("CreateUser")]
-        public async Task<IActionResult> CreateUser(LoginUserDto user)
+        public async Task<IActionResult> CreateUser(CreateUserDto user)
         {
             var result = await _accountManagerService.CreateUser(user);
 
@@ -106,6 +109,25 @@ namespace MotoGarage.Controllers
         }
 
         [HttpPost]
+        [AuthorizeClient]
+        [Route("UpdateUserInfo")]
+        public async Task<IActionResult> UpdateUserInfo(UpdateUserInfoDto updateUserInfo)
+        {
+            var model = _mapper.Map<UpdateUserInfo>(updateUserInfo);
+            model.Email = CurrentUser.Email;
+
+            var result = await _accountManagerService.UpdateUserInfo(model);
+
+            if (!result.IsSuccess)
+            {
+                Response.StatusCode = result.GetErrorResponse.Status;
+                return Json(result.GetErrorResponse);
+            }
+
+            return Json(result);
+        }
+
+        [HttpPost]
         [AuthorizeAdmin]
         [Route("RemoveUser")]
         public async Task<IActionResult> RemoveUser(Guid id)
@@ -122,6 +144,7 @@ namespace MotoGarage.Controllers
         }
 
         [HttpPost]
+        [AuthorizeAdmin]
         [Route("CreateRole")]
         public async Task<IActionResult> CreateRole(RoleDto role)
         {
@@ -136,6 +159,7 @@ namespace MotoGarage.Controllers
         }
 
         [HttpPost]
+        [AuthorizeAdmin]
         [Route("AddRole")]
         public async Task<IActionResult> AddRole(GrantRoleToUserDto grantDto)
         {
@@ -150,6 +174,7 @@ namespace MotoGarage.Controllers
         }
 
         [HttpPost]
+        [AuthorizeAdmin]
         [Route("RemoveRole")]
         public async Task<IActionResult> RemoveRole(GrantRoleToUserDto revokeDto)
         {

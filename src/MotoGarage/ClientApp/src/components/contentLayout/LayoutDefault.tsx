@@ -3,6 +3,12 @@ import React, { ReactNode } from "react";
 
 const themeDark = createTheme({
   palette: {
+    // primary: {
+    //   main: '#0095cc',
+    // },
+    // secondary: {
+    //   main: '#edf2ff',
+    // },
     background: {
       default: "#222222",
     },

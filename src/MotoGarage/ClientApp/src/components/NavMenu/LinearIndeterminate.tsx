@@ -1,7 +1,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
-import { LoadingContext } from "./GlobalState/LoadingState/LoadingStore";
+import { LoadingContext } from "../GlobalState/LoadingState/LoadingStore";
 import { useContext } from "react";
 
 export default function LinearIndeterminate() {

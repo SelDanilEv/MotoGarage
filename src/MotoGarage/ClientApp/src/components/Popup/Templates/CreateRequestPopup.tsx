@@ -1,5 +1,5 @@
 import React from 'react';
-import CreateServiceRequest from '../../Requests/CreateServiceRequest';
+import CreateServiceRequest from './Models/CreateServiceRequest';
 import Popup from '../Popup';
 
 const CreateRequestPopup = (props: any) => {

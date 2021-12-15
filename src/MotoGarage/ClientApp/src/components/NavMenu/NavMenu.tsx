@@ -2,18 +2,18 @@ import {
   AppBar,
   Toolbar,
   Typography,
-  makeStyles,
   Button,
-  withStyles
-} from "@material-ui/core";
+} from "@mui/material";
+import { withTheme, makeStyles } from '@mui/styles';
 import React, { useState, useEffect, useContext } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import  MenuItem  from "../Interfaces/MenuItem";
-import { CurrentUserContext } from "./GlobalState/CurrentUser/CurrentUserStore";
-import wrapAPICall from "./GlobalState/LoadingState/wrapAPICall";
-import { LoadingContext } from "./GlobalState/LoadingState/LoadingStore";
+import MenuItem from "../../Interfaces/MenuItem";
+import { CurrentUserContext } from "../GlobalState/CurrentUser/CurrentUserStore";
+import wrapAPICall from "../GlobalState/LoadingState/wrapAPICall";
+import { LoadingContext } from "../GlobalState/LoadingState/LoadingStore";
+import CurrentUserInfo from "./CurrentUserInfo";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: any) => ({
   header: {
     backgroundColor: "#400CCC",
     paddingRight: "79px",
@@ -81,8 +81,7 @@ const NavMenu = () => {
     return (
       <Toolbar className={toolbar}>
         {femmecubatorLogo}
-        {currentUserState.CurrentUser ? 
-        `${currentUserState.CurrentUser.name}(${currentUserState.CurrentUser.email})` : ""}
+        <CurrentUserInfo />
         <div>{getMenuButtons()}</div>
       </Toolbar>
     );
@@ -145,4 +144,4 @@ const NavMenu = () => {
   );
 };
 
-export default withStyles(() => ({}), { withTheme: true })(NavMenu);
+export default withTheme(NavMenu);
