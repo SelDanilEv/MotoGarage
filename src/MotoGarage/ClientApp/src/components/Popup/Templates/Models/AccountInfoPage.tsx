@@ -75,7 +75,7 @@ const AccountInfoPage = (props: any) => {
         onSubmit={handleSubmit} sx={{ mt: 1, mb: 2 }}>
         <FormField
           name="name"
-          label="Review text"
+          label="User name"
           margin="normal"
           defaultValue={currentUserState.CurrentUser.name}
           fullWidth
@@ -86,6 +86,7 @@ const AccountInfoPage = (props: any) => {
         <FormField
           name="oldPassword"
           label="Old password"
+          type="password"
           margin="normal"
           fullWidth
           error={errorState.oldPasswordError}
@@ -93,6 +94,7 @@ const AccountInfoPage = (props: any) => {
         <FormField
           name="newPassword"
           label="New password"
+          type="password"
           margin="normal"
           fullWidth
           error={errorState.newPasswordError}
@@ -100,6 +102,7 @@ const AccountInfoPage = (props: any) => {
         <FormField
           name="confirmNewPassword"
           label="Confirm new password"
+          type="password"
           margin="normal"
           fullWidth
           error={errorState.confirmNewPasswordError}

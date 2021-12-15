@@ -2,14 +2,11 @@ import * as React from "react";
 import { Link as RouterLink, useNavigate, useSearchParams } from "react-router-dom";
 import ErrorResponse from "../../Interfaces/ErrorResponse";
 import { useContext, useState } from "react";
-import { CurrentUserContext } from "../GlobalState/CurrentUser/CurrentUserStore";
 import { LoadingContext } from "../GlobalState/LoadingState/LoadingStore";
 import FormField from "../Fields/FormField";
 import wrapAPICall from "../GlobalState/LoadingState/wrapAPICall";
 import LockedButton from "../Fields/LockedButton";
 import { Box, Grid, Typography } from "@mui/material";
-import ShowResetMessageSend from "../Popup/Templates/Models/ShowResetMessageSend";
-import PasswordResetSentByEmail from "../Popup/Templates/PasswordResetSentByEmail";
 
 const ResetPassword = () => {
   const navigate = useNavigate();
